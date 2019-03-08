@@ -8,34 +8,38 @@ import cv2
 # specific demo. If you have trouble installing it, try any of the other demos that don't require it instead.
 
 # Open the input movie file
-input_movie = cv2.VideoCapture("SampleVideoShort.mp3")
+input_movie = cv2.VideoCapture("SampleVideoShort.mp4")
 length = int(input_movie.get(cv2.CAP_PROP_FRAME_COUNT))
 FPS = input_movie.get(cv2.CAP_PROP_FPS)
-width =  input_movie.get(cv2.cv.CAP_PROP_FRAME_WIDTH) #1280
-height = input_movie.get(cv2.cv.CAP_PROP_FRAME_HEIGHT) #720
+FACES_PATH = "./input_faces/"
+width =  int(input_movie.get(cv2.CAP_PROP_FRAME_WIDTH)) #1280
+height = int(input_movie.get(cv2.CAP_PROP_FRAME_HEIGHT)) #720
+print(width)
+print(height)
+
 
 # Create an output movie file (make sure resolution/frame rate matches input video!)
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
 output_movie = cv2.VideoWriter('output.avi', fourcc, FPS, (width, height))
 
 # Load some sample pictures and learn how to recognize them.
-lmm_image = face_recognition.load_image_file("lin-manuel-miranda.png")
-lmm_face_encoding = face_recognition.face_encodings(lmm_image)[0]
+terry_crews_image = face_recognition.load_image_file(FACES_PATH + "terry_crews.jpg")
+terry_crews_encoding = face_recognition.face_encodings(terry_crews_image)[0]
 
-al_image = face_recognition.load_image_file("alex-lacamoire.png")
-al_face_encoding = face_recognition.face_encodings(al_image)[0]
+rosa_image = face_recognition.load_image_file(FACES_PATH + "stephanie_beatriz.jpg")
+rosa_encoding = face_recognition.face_encodings(rosa_image)[0]
 
 known_faces = [
-    lmm_face_encoding,
-    al_face_encoding
-]
-
-
+    terry_crews_encoding,
+    rosa_encoding
+    ]
 # Initialize some variables
 face_locations = []
 face_encodings = []
 face_names = []
 frame_number = 0
+
+output_csv = open("output.csv", 'w')
 
 while True:
     # Grab a single frame of video
@@ -62,9 +66,9 @@ while True:
         # but I kept it simple for the demo
         name = None
         if match[0]:
-            name = "Lin-Manuel Miranda"
+            name = "Terry Crews"
         elif match[1]:
-            name = "Alex Lacamoire"
+            name = "Stephanie Beatriz"
 
         face_names.append(name)
 
@@ -83,8 +87,11 @@ while True:
 
     # Write the resulting image to the output video file
     print("Writing frame {} / {}".format(frame_number, length))
+    print("{}, {}".format(frame_number/FPS, face_names))
     output_movie.write(frame)
+    output_csv.write("{}, {}\n".format(frame_number/FPS, face_names)
 
 # All done!
 input_movie.release()
+output_csv.close()
 cv2.destroyAllWindows()
