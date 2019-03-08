@@ -30,6 +30,7 @@ known_faces = [
     al_face_encoding
 ]
 
+
 # Initialize some variables
 face_locations = []
 face_encodings = []
