@@ -1,6 +1,25 @@
 import face_recognition
 import cv2
+import Experiments.processing
+import os
 
+'''
+Requirements: 
+    movie_path of video to run detections over
+    path to images of the faces to be detected (.jpg)
+        names of actors must be written as the filename, with either a space or an underscore separating first& last name
+    The images in the input faces path should only have one face in them: the face of the actor the file is named after
+    filenames of images must be lower case and have spaces replaced with '_'
+
+Output:
+
+Side-Effects:
+    prints results of each frame analysis
+    writes table1 and table2 data, stores final results in a pickle object
+
+'''
+
+def recognize_faces(movie_path, faces_path, name_mappings)
 # This is a demo of running face recognition on a video file and saving the results to a new video file.
 #
 # PLEASE NOTE: This example requires OpenCV (the `cv2` library) to be installed only to read from your webcam.
@@ -8,10 +27,10 @@ import cv2
 # specific demo. If you have trouble installing it, try any of the other demos that don't require it instead.
 
 # Open the input movie file
-input_movie = cv2.VideoCapture("SampleVideoShort.mp4")
+input_movie = cv2.VideoCapture(movie_path)
 length = int(input_movie.get(cv2.CAP_PROP_FRAME_COUNT))
 FPS = input_movie.get(cv2.CAP_PROP_FPS)
-FACES_PATH = "./input_faces/"
+FACES_PATH = faces_path
 width =  int(input_movie.get(cv2.CAP_PROP_FRAME_WIDTH)) #1280
 height = int(input_movie.get(cv2.CAP_PROP_FRAME_HEIGHT)) #720
 print(width)
@@ -19,20 +38,33 @@ print(height)
 
 
 # Create an output movie file (make sure resolution/frame rate matches input video!)
-fourcc = cv2.VideoWriter_fourcc(*'XVID')
-output_movie = cv2.VideoWriter('output.avi', fourcc, FPS, (width, height))
+#fourcc = cv2.VideoWriter_fourcc(*'XVID')
+#output_movie = cv2.VideoWriter('output.avi', fourcc, FPS, (width, height))
 
-# Load some sample pictures and learn how to recognize them.
+# Load pictures from faces folder, make record of name-features pair and learn how to recognize them.
+# known actor record => {"actor":"actor name", "character":"character name", "encoding":face_encoding}
+known_actors = []
+name_mappings = {"channing_tatum":"jenko", "jonah_hill":"schmidt"}  #!!!!TEMPORARILY OVERWRITING PARAMETER
+
+for image_name in os.listdir(movie_path):
+    image = face_recognition.load_image_file(FACES_PATH + image_name)
+    encoding = face_recognition.face_encodings(image)[0]
+    actor_name = image_name.rsplit('.')[0]
+    known_actors.append((dict){"actor":actor_name, "character":name_mappings[actor_name.lower()], "encoding":face_encoding})
+
 terry_crews_image = face_recognition.load_image_file(FACES_PATH + "terry_crews.jpg")
 terry_crews_encoding = face_recognition.face_encodings(terry_crews_image)[0]
 
 rosa_image = face_recognition.load_image_file(FACES_PATH + "stephanie_beatriz.jpg")
 rosa_encoding = face_recognition.face_encodings(rosa_image)[0]
 
-known_faces = [
+
+known_faces_list = [
     terry_crews_encoding,
     rosa_encoding
     ]
+
+
 # Initialize some variables
 face_locations = []
 face_encodings = []
@@ -40,6 +72,7 @@ face_names = []
 frame_number = 0
 
 output_csv = open("output.csv", 'w')
+output_names_list = []
 
 while True:
     # Grab a single frame of video
@@ -60,13 +93,14 @@ while True:
     face_names = []
     for face_encoding in face_encodings:
         # See if the face is a match for the known face(s)
-        match = face_recognition.compare_faces(known_faces, face_encoding, tolerance=0.50)
+        match = face_recognition.compare_faces(known_faces_list, face_encoding, tolerance=0.50)
 
-        # If you had more than 2 faces, you could make this logic a lot prettier
+        # If you had more than 2 faces, you could TODO: MAKE THIS LOGIC A LOT PRETTIER
         # but I kept it simple for the demo
         name = None
         if match[0]:
             name = "Terry Crews"
+            name = known_faces[] ##########!!!!!!!!!!!!!!!!!!!!!
         elif match[1]:
             name = "Stephanie Beatriz"
 
@@ -88,10 +122,17 @@ while True:
     # Write the resulting image to the output video file
     print("Writing frame {} / {}".format(frame_number, length))
     print("{}, {}".format(frame_number/FPS, face_names))
-    output_movie.write(frame)
+    #output_movie.write(frame)
     output_csv.write("{}, {}\n".format(frame_number/FPS, face_names)
 
+    #append the output for this frame to list
+    output_names.append(face_names)
+
 # All done!
+
 input_movie.release()
 output_csv.close()
 cv2.destroyAllWindows()
+
+#calculate percentages & pickle results
+processing.getPercentages(output_names) #default bucket size is entire clip
