@@ -1,4 +1,6 @@
 import os
+import face_recognition
+import cv2
 
 '''
 
@@ -24,11 +26,10 @@ for image_name in os.listdir(FACES_PATH):
         continue
     if actor_name not in name_mappings:
         name_mappings[actor_name] = actor_name + ":unknown_character"
-    print("image name: " + image_name)
-    #image = face_recognition.load_image_file(FACES_PATH + image_name)
-    #encoding = face_recognition.face_encodings(image)[0]
-    
-    known_actors.append(dict({"actor":actor_name, "character":name_mappings[actor_name.lower()], "encoding":"ENcODiNg hERe"}))
+    image = face_recognition.load_image_file(FACES_PATH + image_name)
+    encoding = face_recognition.face_encodings(image)[0]
+    known_actors.append(dict({"actor":actor_name, "character":name_mappings[actor_name.lower()], "encoding":encoding}))
+    print("encoded " + image_name)
 
 for record in known_actors:
     print(record)

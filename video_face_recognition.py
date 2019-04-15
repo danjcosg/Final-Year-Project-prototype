@@ -5,11 +5,12 @@ import os
 
 '''
 Requirements: 
-    movie_path of video to run detections over
-    path to images of the faces to be detected (.jpg)
-        names of actors must be written as the filename, with either a space or an underscore separating first& last name
-    The images in the input faces path should only have one face in them: the face of the actor the file is named after
-    filenames of images must be lower case and have spaces replaced with '_'
+    str video_path - video path of video to run detections over
+
+    [dict] - face "knowledge" of characters to be detected:
+        # actor knowledge base structure => [ {"actor":<actor name>, "character":<character name>, "encoding":<dlib face_encoding>} ]
+
+
 
 Output:
 
@@ -19,7 +20,7 @@ Side-Effects:
 
 '''
 
-def recognize_faces(movie_path, faces_path, name_mappings)
+def run(video_path, actor_kb)
 # This is a demo of running face recognition on a video file and saving the results to a new video file.
 #
 # PLEASE NOTE: This example requires OpenCV (the `cv2` library) to be installed only to read from your webcam.
@@ -41,40 +42,34 @@ print(height)
 #fourcc = cv2.VideoWriter_fourcc(*'XVID')
 #output_movie = cv2.VideoWriter('output.avi', fourcc, FPS, (width, height))
 
-# Load pictures from faces folder, make record of name-features pair and learn how to recognize them.
-# known actor record => {"actor":"actor name", "character":"character name", "encoding":face_encoding}
-known_actors = []
-name_mappings = {"channing_tatum":"jenko", "jonah_hill":"schmidt"}  #!!!!TEMPORARILY OVERWRITING PARAMETER
-
-for image_name in os.listdir(movie_path):
-    image = face_recognition.load_image_file(FACES_PATH + image_name)
-    encoding = face_recognition.face_encodings(image)[0]
-    actor_name = image_name.rsplit('.')[0]
-    known_actors.append((dict){"actor":actor_name, "character":name_mappings[actor_name.lower()], "encoding":face_encoding})
-
 terry_crews_image = face_recognition.load_image_file(FACES_PATH + "terry_crews.jpg")
 terry_crews_encoding = face_recognition.face_encodings(terry_crews_image)[0]
 
 rosa_image = face_recognition.load_image_file(FACES_PATH + "stephanie_beatriz.jpg")
 rosa_encoding = face_recognition.face_encodings(rosa_image)[0]
 
-
-known_faces_list = [
-    terry_crews_encoding,
-    rosa_encoding
-    ]
-
+# split record list into lists of the columns (keeping order) for input into recognizer functions
+# maintaining order between the lists for easy referencing later on
+# eg: known_encodings[1] is from the same record as known_characters[1], etc
+known_encodings = []
+known_characters = []
+for record in actor_kb:
+    known_encodings.append(record['encoding'])
+    known_characters.append(record['character'])
 
 # Initialize some variables
 face_locations = []
-face_encodings = []
-face_names = []
+face_encodings_found = []
+recognized_faces_names = []
 frame_number = 0
 
 output_csv = open("output.csv", 'w')
 output_names_list = []
 
 while True:
+
+    # READ FRAME IN (OpenCV)
+
     # Grab a single frame of video
     ret, frame = input_movie.read()
     frame_number += 1
@@ -86,26 +81,40 @@ while True:
     # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
     rgb_frame = frame[:, :, ::-1]
 
-    # Find all the faces and face encodings in the current frame of video
+    # BEGIN FACE DETECTION & ENCODING OVER THE FRAME. (find ALL faces in the frame. NB: Encoding is like analysing a face. Recognition is encoding + comparing to some kb of encodings)
+    """
+    Returns an array of bounding boxes of human faces in a image
+    :param img: An image (as a numpy array)
+    :param number_of_times_to_upsample: How many times to upsample the image looking for faces. Higher numbers find smaller faces.
+    :param model: Which face detection model to use. "hog" is less accurate but faster on CPUs. "cnn" is a more accurate
+                  deep-learning model which is GPU/CUDA accelerated (if available). The default is "hog".
+    :return: A list of tuples of found face locations in css (top, right, bottom, left) order
+    """
     face_locations = face_recognition.face_locations(rgb_frame)
-    face_encodings = face_recognition.face_encodings(rgb_frame, face_locations)
+    face_encodings_found = face_recognition.face_encodings(rgb_frame, face_locations, 2)
 
-    face_names = []
-    for face_encoding in face_encodings:
-        # See if the face is a match for the known face(s)
-        match = face_recognition.compare_faces(known_faces_list, face_encoding, tolerance=0.50)
+    # COMPARE FACES FOUND IN IMAGE TO KNOWN FACES, THEN SAVE NAMES OF THOSE RECOGNIZED
+    recognized_faces_names = []
+    tolerance = 0.6
+    for face_encoding in face_encodings_found:
 
-        # If you had more than 2 faces, you could TODO: MAKE THIS LOGIC A LOT PRETTIER
-        # but I kept it simple for the demo
+        # encodings_match has the same order as known_encodings
+        #encodings_match = face_recognition.compare_faces(known_encodings, face_encoding, tolerance=0.50)
+        if len() == 0
+            return np.empty((0)
+        encodings_match.append(np.linalg.norm(known_encodings - face_encoding, 1) <= tolerance)
+
         name = None
-        if match[0]:
-            name = "Terry Crews"
-            name = known_faces[] ##########!!!!!!!!!!!!!!!!!!!!!
-        elif match[1]:
-            name = "Stephanie Beatriz"
+        for i in range(0, len(known_encodings)):
+            if encodings_match[i]:
+                name = known_characters[i]
+                break
 
-        face_names.append(name)
+        recognized_faces_names.append(name)
 
+    # FINISHED RECOGNIZING
+    # OUTPUT RESULTS
+    '''
     # Label the results
     for (top, right, bottom, left), name in zip(face_locations, face_names):
         if not name:
@@ -121,14 +130,14 @@ while True:
 
     # Write the resulting image to the output video file
     print("Writing frame {} / {}".format(frame_number, length))
-    print("{}, {}".format(frame_number/FPS, face_names))
     #output_movie.write(frame)
+    '''
+    print("{}, {}".format(frame_number/FPS, recognized_faces_names))
     output_csv.write("{}, {}\n".format(frame_number/FPS, face_names)
 
     #append the output for this frame to list
     output_names.append(face_names)
 
-# All done!
 
 input_movie.release()
 output_csv.close()

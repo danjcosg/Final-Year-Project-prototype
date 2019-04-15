@@ -1,0 +1,740 @@
+Last login: Sun Apr  7 14:42:54 on console
+Conals-MacBook-Pro:~ daniel$ string = "Hello. Friend. Wow"
+-bash: string: command not found
+Conals-MacBook-Pro:~ daniel$ python3
+Python 3.6.0 (v3.6.0:41df79263a11, Dec 22 2016, 17:23:13) 
+[GCC 4.2.1 (Apple Inc. build 5666) (dot 3)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> stringg = "Hello. Frien. Wow"
+>>> stringg.rsplit()
+['Hello.', 'Frien.', 'Wow']
+>>> stringg.rsplit('.')
+['Hello', ' Frien', ' Wow']
+>>> stringg = file name.jpg
+  File "<stdin>", line 1
+    stringg = file name.jpg
+                      ^
+SyntaxError: invalid syntax
+>>> stringg = "file name.jpg"
+>>> stringg.rsplit('.')
+['file name', 'jpg']
+>>> stringg.rsplit('.')[0]
+'file name'
+>>> ^D
+Conals-MacBook-Pro:~ daniel$ ls
+AndroidStudioProjects	Downloads		Music
+Applications		Javascript		Pictures
+Desktop			Library			Public
+Documents		Movies			python-virtual-envs
+Conals-MacBook-Pro:~ daniel$ cd Documents/
+Conals-MacBook-Pro:Documents daniel$ ls
+Amnesty
+FYP
+Group_Project
+Staff Timesheet  Sept 2018-2019 - DANIEL COSGROVE.numbers
+global-room.jpg
+haskell
+health blocks
+love.exe
+moreThanThis
+noCode.rtf
+picbinary.jpg
+stmc hours term1 - Daniel Cosgrove .numbers
+Conals-MacBook-Pro:Documents daniel$ cd FYP/
+Conals-MacBook-Pro:FYP daniel$ l
+-bash: l: command not found
+Conals-MacBook-Pro:FYP daniel$ ll
+-bash: ll: command not found
+Conals-MacBook-Pro:FYP daniel$ ls
+Celeb Datasets	M-Vad		M_Vad_Names	image purity	sloth-1.0
+Experiments	M-Vad AVI	Prototype	metric
+Conals-MacBook-Pro:FYP daniel$ list
+-bash: list: command not found
+Conals-MacBook-Pro:FYP daniel$ ls
+Celeb Datasets	M-Vad		M_Vad_Names	image purity	sloth-1.0
+Experiments	M-Vad AVI	Prototype	metric
+Conals-MacBook-Pro:FYP daniel$ cd Experiments/table1_datastructure_spec.txt 
+.DS_Store       Experiments/    M-Vad AVI/      Prototype/      metric/
+Celeb Datasets/ M-Vad/          M_Vad_Names/    image purity/   sloth-1.0/
+Conals-MacBook-Pro:FYP daniel$ cd Experiments/
+Conals-MacBook-Pro:Experiments daniel$ s
+-bash: s: command not found
+Conals-MacBook-Pro:Experiments daniel$ ls
+table1_datastructure_spec.txt
+Conals-MacBook-Pro:Experiments daniel$ cd ..
+Conals-MacBook-Pro:FYP daniel$ ls
+Celeb Datasets	M-Vad		M_Vad_Names	image purity	sloth-1.0
+Experiments	M-Vad AVI	Prototype	metric
+Conals-MacBook-Pro:FYP daniel$ cd Prototype/
+Conals-MacBook-Pro:Prototype daniel$ ls
+ExperimentRound1		googleSearchTest.py
+Experiments			input_faces
+Neo Waking Up Trimmed.mp4	output.csv
+README.md			recognizeImages.py
+SampleVideoShort.mp4		sampleVideo.mp4
+dlib				unknown_faces
+experiment1.py			video_clips
+face_downloads			video_face_recognition.py
+Conals-MacBook-Pro:Prototype daniel$ cd Experiment
+-bash: cd: Experiment: No such file or directory
+Conals-MacBook-Pro:Prototype daniel$ cd 
+.DS_Store                  SampleVideoShort.mp4       output.csv
+.git/                      dlib/                      recognizeImages.py
+ExperimentRound1/          experiment1.py             sampleVideo.mp4
+Experiments/               face_downloads/            unknown_faces/
+Neo Waking Up Trimmed.mp4  googleSearchTest.py        video_clips/
+README.md                  input_faces/               video_face_recognition.py
+Conals-MacBook-Pro:Prototype daniel$ cd ExperimentRound1/
+Conals-MacBook-Pro:ExperimentRound1 daniel$ ls
+deleteme.py
+Conals-MacBook-Pro:ExperimentRound1 daniel$ ls
+deleteme.py
+Conals-MacBook-Pro:ExperimentRound1 daniel$ cd ..
+Conals-MacBook-Pro:Prototype daniel$ ls
+ExperimentRound1		googleSearchTest.py
+Experiments			input_faces
+Neo Waking Up Trimmed.mp4	output.csv
+README.md			recognizeImages.py
+SampleVideoShort.mp4		sampleVideo.mp4
+dlib				unknown_faces
+experiment1.py			video_clips
+face_downloads			video_face_recognition.py
+Conals-MacBook-Pro:Prototype daniel$ cd P
+-bash: cd: P: No such file or directory
+Conals-MacBook-Pro:Prototype daniel$ cd ..
+Conals-MacBook-Pro:FYP daniel$ ls
+Celeb Datasets	M-Vad		M_Vad_Names	image purity	sloth-1.0
+Experiments	M-Vad AVI	Prototype	metric
+Conals-MacBook-Pro:FYP daniel$ git commit -a
+fatal: Not a git repository (or any of the parent directories): .git
+Conals-MacBook-Pro:FYP daniel$ ls
+Celeb Datasets	M-Vad		M_Vad_Names	image purity	sloth-1.0
+Experiments	M-Vad AVI	Prototype	metric
+Conals-MacBook-Pro:FYP daniel$ cd Prototype/
+Conals-MacBook-Pro:Prototype daniel$ ls
+ExperimentRound1		googleSearchTest.py
+Experiments			input_faces
+Neo Waking Up Trimmed.mp4	output.csv
+README.md			recognizeImages.py
+SampleVideoShort.mp4		sampleVideo.mp4
+dlib				unknown_faces
+experiment1.py			video_clips
+face_downloads			video_face_recognition.py
+Conals-MacBook-Pro:Prototype daniel$ git add /?
+fatal: /?: '/?' is outside repository
+Conals-MacBook-Pro:Prototype daniel$ git commit \?
+error: pathspec '?' did not match any file(s) known to git.
+Conals-MacBook-Pro:Prototype daniel$ git commit -h
+usage: git commit [<options>] [--] <pathspec>...
+
+    -q, --quiet           suppress summary after successful commit
+    -v, --verbose         show diff in commit message template
+
+Commit message options
+    -F, --file <file>     read message from file
+    --author <author>     override author for commit
+    --date <date>         override date for commit
+    -m, --message <message>
+                          commit message
+    -c, --reedit-message <commit>
+                          reuse and edit message from specified commit
+    -C, --reuse-message <commit>
+                          reuse message from specified commit
+    --fixup <commit>      use autosquash formatted message to fixup specified commit
+    --squash <commit>     use autosquash formatted message to squash specified commit
+    --reset-author        the commit is authored by me now (used with -C/-c/--amend)
+    -s, --signoff         add Signed-off-by:
+    -t, --template <file>
+                          use specified template file
+    -e, --edit            force edit of commit
+    --cleanup <default>   how to strip spaces and #comments from message
+    --status              include status in commit message template
+    -S, --gpg-sign[=<key-id>]
+                          GPG sign commit
+
+Commit contents options
+    -a, --all             commit all changed files
+    -i, --include         add specified files to index for commit
+    --interactive         interactively add files
+    -p, --patch           interactively add changes
+    -o, --only            commit only specified files
+    -n, --no-verify       bypass pre-commit and commit-msg hooks
+    --dry-run             show what would be committed
+    --short               show status concisely
+    --branch              show branch information
+    --porcelain           machine-readable output
+    --long                show status in long format (default)
+    -z, --null            terminate entries with NUL
+    --amend               amend previous commit
+    --no-post-rewrite     bypass post-rewrite hook
+    -u, --untracked-files[=<mode>]
+                          show untracked files, optional modes: all, normal, no. (Default: all)
+
+Conals-MacBook-Pro:Prototype daniel$ git commit -a
+error: There was a problem with the editor 'vi'.
+Please supply the message using either -m or -F option.
+Conals-MacBook-Pro:Prototype daniel$ git commit -a
+[master fe14960] updating
+ 2 files changed, 51 insertions(+), 59 deletions(-)
+ delete mode 100644 proto_main.py
+Conals-MacBook-Pro:Prototype daniel$ git commit -h
+usage: git commit [<options>] [--] <pathspec>...
+
+    -q, --quiet           suppress summary after successful commit
+    -v, --verbose         show diff in commit message template
+
+Commit message options
+    -F, --file <file>     read message from file
+    --author <author>     override author for commit
+    --date <date>         override date for commit
+    -m, --message <message>
+                          commit message
+    -c, --reedit-message <commit>
+                          reuse and edit message from specified commit
+    -C, --reuse-message <commit>
+                          reuse message from specified commit
+    --fixup <commit>      use autosquash formatted message to fixup specified commit
+    --squash <commit>     use autosquash formatted message to squash specified commit
+    --reset-author        the commit is authored by me now (used with -C/-c/--amend)
+    -s, --signoff         add Signed-off-by:
+    -t, --template <file>
+                          use specified template file
+    -e, --edit            force edit of commit
+    --cleanup <default>   how to strip spaces and #comments from message
+    --status              include status in commit message template
+    -S, --gpg-sign[=<key-id>]
+                          GPG sign commit
+
+Commit contents options
+    -a, --all             commit all changed files
+    -i, --include         add specified files to index for commit
+    --interactive         interactively add files
+    -p, --patch           interactively add changes
+    -o, --only            commit only specified files
+    -n, --no-verify       bypass pre-commit and commit-msg hooks
+    --dry-run             show what would be committed
+    --short               show status concisely
+    --branch              show branch information
+    --porcelain           machine-readable output
+    --long                show status in long format (default)
+    -z, --null            terminate entries with NUL
+    --amend               amend previous commit
+    --no-post-rewrite     bypass post-rewrite hook
+    -u, --untracked-files[=<mode>]
+                          show untracked files, optional modes: all, normal, no. (Default: all)
+
+Conals-MacBook-Pro:Prototype daniel$ git commit -a
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+Changes not staged for commit:
+	modified:   dlib (untracked content)
+
+Untracked files:
+	ExperimentRound1/
+	Experiments/
+	experiment1.py
+	face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /
+	face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/
+	input_faces/
+	output.csv
+	video_clips/
+
+no changes added to commit
+Conals-MacBook-Pro:Prototype daniel$ git add -a
+error: unknown switch `a'
+usage: git add [<options>] [--] <pathspec>...
+
+    -n, --dry-run         dry run
+    -v, --verbose         be verbose
+
+    -i, --interactive     interactive picking
+    -p, --patch           select hunks interactively
+    -e, --edit            edit current diff and apply
+    -f, --force           allow adding otherwise ignored files
+    -u, --update          update tracked files
+    -N, --intent-to-add   record only the fact that the path will be added later
+    -A, --all             add changes from all tracked and untracked files
+    --ignore-removal      ignore paths removed in the working tree (same as --no-all)
+    --refresh             don't add, only refresh the index
+    --ignore-errors       just skip files which cannot be added because of errors
+    --ignore-missing      check if - even missing - files are ignored in dry run
+    --chmod <(+/-)x>      override the executable bit of the listed files
+
+Conals-MacBook-Pro:Prototype daniel$ git add 
+Nothing specified, nothing added.
+Maybe you wanted to say 'git add .'?
+Conals-MacBook-Pro:Prototype daniel$ git add -a
+error: unknown switch `a'
+usage: git add [<options>] [--] <pathspec>...
+
+    -n, --dry-run         dry run
+    -v, --verbose         be verbose
+
+    -i, --interactive     interactive picking
+    -p, --patch           select hunks interactively
+    -e, --edit            edit current diff and apply
+    -f, --force           allow adding otherwise ignored files
+    -u, --update          update tracked files
+    -N, --intent-to-add   record only the fact that the path will be added later
+    -A, --all             add changes from all tracked and untracked files
+    --ignore-removal      ignore paths removed in the working tree (same as --no-all)
+    --refresh             don't add, only refresh the index
+    --ignore-errors       just skip files which cannot be added because of errors
+    --ignore-missing      check if - even missing - files are ignored in dry run
+    --chmod <(+/-)x>      override the executable bit of the listed files
+
+Conals-MacBook-Pro:Prototype daniel$ git add --all
+Conals-MacBook-Pro:Prototype daniel$ git commit -a
+[master df78500] update
+ 55 files changed, 729 insertions(+)
+ create mode 100644 ExperimentRound1/deleteme.py
+ create mode 100644 Experiments/21JumpStreet_formattedData.py
+ create mode 100644 Experiments/pickletest.py
+ create mode 100644 Experiments/pickletest_table1.pkl
+ create mode 100644 Experiments/processing.py
+ create mode 100644 Experiments/table1_datastructure_spec.txt
+ create mode 100644 Experiments/table2_datastructure_spec.txt
+ create mode 100644 experiment1.py
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /1. maxresdefault.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /10. maxresdefault.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /11. rosatweet.png
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /12. rosas-leather-trim-blouse.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /13. esweetyv-720.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /14. 220px-sxsw_2016_-_stephanie_beatriz_%2825778537531%29.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /15. b99-510_sc16_jpf0185_f_hires1.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /16. rosa-burgundy-leather-jacket.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /17. maxresdefault.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /18. maxresdefault.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /19. maxresdefault.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /2. b99_ep511-sc22_0215_f_hires1-e1513129151331.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /20. maxresdefault.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /3. stephanie-beatriz.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /4. maxresdefault.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /5. b99-509_scn25_ja0144_f_hires2.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /6. 2000?cb=20171103224359.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /7. maxresdefault.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /8. 220px-actor_stephanie_beatriz.jpg
+ create mode 100644 face_downloads/ Stephanie Beatriz Rosa Diez Brooklyn nine nine /9. hqdefault.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/1. dccb377c9c19548814d7f85da9fa573f.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/10. mission-impossible.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/11. 99f1934ddd8f0aae6679a9c0185b51fa.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/12. 6e1172ed8a7fc5a4de3a302a444b6ce3.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/13. 97069dff597ca52d210a3d348956a6dd.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/14. daabd2217433fb27e065bd04d5989502.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/15. tom-cruise2.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/16. f969f31455970615fa4e76798744c94e.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/17. 1.1180613_3580734734.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/18. tom-cruise-headshot-prphotos-600x325.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/19. mi6-ff-00070ra_copy.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/2. f53e239345095429a86b1b0f259936fa.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/20. mission-impossible-fallout-comicbookcom-1080225-1280x0.jpeg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/3. 9a40be5458388894bdd0d9735df160b3.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/4. b65768c1c4ee74e433a8873ea3651da0.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/5. 0e51b233503bd14b1c5e41a579306d4b.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/6. c08b6022f923fb0651cded787124794e.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/7. b7b98187c1afdeb4b10e72c0b54668f9.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/8. 7233098e15620fde61e07aa67718db57.jpg
+ create mode 100644 face_downloads/ Tom Cruise Ethan Hunt Mission Impossible headshot/9. 46899e1bb9f628e9b5d9bdb39daa4e1b.jpg
+ create mode 100644 input_faces/stephanie_beatriz.jpg
+ create mode 100644 input_faces/terry_crews.jpg
+ create mode 100644 input_faces/tom_cruise.jpg
+ create mode 100644 output.csv
+ create mode 100644 video_clips/21_JUMP_STREET_DVS20.avi
+ create mode 100644 video_clips/21_JUMP_STREET_DVS21.avi
+ create mode 100644 video_clips/21_JUMP_STREET_DVS22.avi
+Conals-MacBook-Pro:Prototype daniel$ git push
+Counting objects: 64, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (63/63), done.
+Writing objects: 100% (64/64), 19.79 MiB | 5.52 MiB/s, done.
+Total 64 (delta 3), reused 0 (delta 0)
+remote: Resolving deltas: 100% (3/3), completed with 2 local objects.
+To https://github.com/Leinadho/Final-Year-Project-prototype.git
+   1e1ed94..df78500  master -> master
+Conals-MacBook-Pro:Prototype daniel$ clear
+
+Conals-MacBook-Pro:Prototype daniel$ ls
+ExperimentRound1		input_faces
+Experiments			output.csv
+README.md			recognizeImages.py
+SampleVideoShort.mp4		sampleVideo.mp4
+dlib				unknown_faces
+experiment1.py			video_clips
+face_downloads			video_face_recognition.py
+googleSearchTest.py
+Conals-MacBook-Pro:Prototype daniel$ cd ..
+Conals-MacBook-Pro:FYP daniel$ ls
+Celeb Datasets	M-Vad		M_Vad_Names	image purity	sloth-1.0
+Experiments	M-Vad AVI	Prototype	metric
+Conals-MacBook-Pro:FYP daniel$ cd Experiments/
+Conals-MacBook-Pro:Experiments daniel$ ls
+round1				table1_datastructure_spec.txt
+Conals-MacBook-Pro:Experiments daniel$ cd round1/
+Conals-MacBook-Pro:round1 daniel$ ls
+21_jump_street		hugo			the_social_network
+captain_america		iron_man_2
+Conals-MacBook-Pro:round1 daniel$ cd ..
+Conals-MacBook-Pro:Experiments daniel$ ls
+round1				table1_datastructure_spec.txt
+Conals-MacBook-Pro:Experiments daniel$ cd ..
+Conals-MacBook-Pro:FYP daniel$ s
+-bash: s: command not found
+Conals-MacBook-Pro:FYP daniel$ ls
+Celeb Datasets	M-Vad		M_Vad_Names	image purity	sloth-1.0
+Experiments	M-Vad AVI	Prototype	metric
+Conals-MacBook-Pro:FYP daniel$ cd Prototype/
+Conals-MacBook-Pro:Prototype daniel$ ls
+ExperimentRound1		input_faces
+Experiments			output.csv
+README.md			recognizeImages.py
+SampleVideoShort.mp4		sampleVideo.mp4
+dlib				unknown_faces
+experiment1.py			video_clips
+face_downloads			video_face_recognition.py
+googleSearchTest.py
+Conals-MacBook-Pro:Prototype daniel$ cd Experiment
+-bash: cd: Experiment: No such file or directory
+Conals-MacBook-Pro:Prototype daniel$ ls
+ExperimentRound1		input_faces
+Experiments			output.csv
+README.md			recognizeImages.py
+SampleVideoShort.mp4		sampleVideo.mp4
+dlib				unknown_faces
+experiment1.py			video_clips
+face_downloads			video_face_recognition.py
+googleSearchTest.py
+Conals-MacBook-Pro:Prototype daniel$ cd ExperimentRound1/
+Conals-MacBook-Pro:ExperimentRound1 daniel$ ls
+deleteme.py
+Conals-MacBook-Pro:ExperimentRound1 daniel$ python3 deleteme.py
+  File "deleteme.py", line 8
+    if (actor_name[len(actor_name) - 1]).isdigit() ):       #only use first image of each actor
+                                                   ^
+SyntaxError: invalid syntax
+Conals-MacBook-Pro:ExperimentRound1 daniel$ python3 deleteme.py
+  File "deleteme.py", line 15
+    known_actors.append((dict){"actor":actor_name, "character":name_mappings[actor_name.lower()], "encoding":"ENcODiNg hERe"})
+                              ^
+SyntaxError: invalid syntax
+Conals-MacBook-Pro:ExperimentRound1 daniel$ python3 deleteme.py
+  File "deleteme.py", line 17
+    for record in known_actors:
+                              ^
+SyntaxError: invalid syntax
+Conals-MacBook-Pro:ExperimentRound1 daniel$ ls
+deleteme.py
+Conals-MacBook-Pro:ExperimentRound1 daniel$ python3
+Python 3.6.0 (v3.6.0:41df79263a11, Dec 22 2016, 17:23:13) 
+[GCC 4.2.1 (Apple Inc. build 5666) (dot 3)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> for i in range(1,100):
+...     print("ehy")
+... 
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+ehy
+>>> clear
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'clear' is not defined
+>>> ^D
+Conals-MacBook-Pro:ExperimentRound1 daniel$ ls
+deleteme.py
+Conals-MacBook-Pro:ExperimentRound1 daniel$ clear
+
+Conals-MacBook-Pro:ExperimentRound1 daniel$ python3 deleteme.py 
+  File "deleteme.py", line 17
+    for record in known_actors:
+                              ^
+SyntaxError: invalid syntax
+Conals-MacBook-Pro:ExperimentRound1 daniel$ python3 deleteme.py 
+  File "deleteme.py", line 17
+    for record in known_actors:
+                              ^
+SyntaxError: invalid syntax
+Conals-MacBook-Pro:ExperimentRound1 daniel$ python3 deleteme.py 
+  File "deleteme.py", line 17
+    for record in known_actors.__iter__:
+                                       ^
+SyntaxError: invalid syntax
+Conals-MacBook-Pro:ExperimentRound1 daniel$ python3 deleteme.py 
+  File "deleteme.py", line 17
+    for record in known_actors.__iter__():
+                                         ^
+SyntaxError: invalid syntax
+Conals-MacBook-Pro:ExperimentRound1 daniel$ python3 deleteme.py 
+  File "deleteme.py", line 19
+    '''
+      ^
+SyntaxError: invalid syntax
+Conals-MacBook-Pro:ExperimentRound1 daniel$ python3 deleteme.py 
+Traceback (most recent call last):
+  File "deleteme.py", line 6, in <module>
+    for image_name in os.listdir(movie_path):
+NameError: name 'movie_path' is not defined
+Conals-MacBook-Pro:ExperimentRound1 daniel$ cd ..
+Conals-MacBook-Pro:Prototype daniel$ l
+-bash: l: command not found
+Conals-MacBook-Pro:Prototype daniel$ ls
+ExperimentRound1		input_faces
+Experiments			output.csv
+README.md			recognizeImages.py
+SampleVideoShort.mp4		sampleVideo.mp4
+dlib				unknown_faces
+experiment1.py			video_clips
+face_downloads			video_face_recognition.py
+googleSearchTest.py
+Conals-MacBook-Pro:Prototype daniel$ cd ExperimentRound1/
+Conals-MacBook-Pro:ExperimentRound1 daniel$ ls
+deleteme.py
+Conals-MacBook-Pro:ExperimentRound1 daniel$ cd ..
+Conals-MacBook-Pro:Prototype daniel$ ls
+ExperimentRound1		input_faces
+Experiments			output.csv
+README.md			recognizeImages.py
+SampleVideoShort.mp4		sampleVideo.mp4
+dlib				unknown_faces
+experiment1.py			video_clips
+face_downloads			video_face_recognition.py
+googleSearchTest.py
+Conals-MacBook-Pro:Prototype daniel$ cd ..
+Conals-MacBook-Pro:FYP daniel$ l
+-bash: l: command not found
+Conals-MacBook-Pro:FYP daniel$ sls
+-bash: sls: command not found
+Conals-MacBook-Pro:FYP daniel$ ls
+Celeb Datasets	M-Vad		M_Vad_Names	image purity	sloth-1.0
+Experiments	M-Vad AVI	Prototype	metric
+Conals-MacBook-Pro:FYP daniel$ cd Experiments/
+Conals-MacBook-Pro:Experiments daniel$ ls
+round1				table1_datastructure_spec.txt
+Conals-MacBook-Pro:Experiments daniel$ cd round1/
+Conals-MacBook-Pro:round1 daniel$ ls
+21_jump_street		hugo			the_social_network
+captain_america		iron_man_2
+Conals-MacBook-Pro:round1 daniel$ cd 21_jump_street/
+Conals-MacBook-Pro:21_jump_street daniel$ ls
+faces
+Conals-MacBook-Pro:21_jump_street daniel$ cd faces/
+Conals-MacBook-Pro:faces daniel$ ls
+brie_larson.jpg		channing_tatum.jpg	dave_franco1.jpg
+brie_larson2.jpg	dave_franco.jpg		jonah_hill.jpg
+Conals-MacBook-Pro:faces daniel$ ls -l
+total 4560
+-rw-r--r--@ 1 daniel  staff  2016740  8 Apr 17:45 brie_larson.jpg
+-rw-r--r--@ 1 daniel  staff    69934  8 Apr 17:45 brie_larson2.jpg
+-rw-r--r--@ 1 daniel  staff    97152  8 Apr 17:40 channing_tatum.jpg
+-rw-r--r--@ 1 daniel  staff    60286  8 Apr 17:46 dave_franco.jpg
+-rw-r--r--@ 1 daniel  staff    34264  8 Apr 17:46 dave_franco1.jpg
+-rw-r--r--@ 1 daniel  staff    42244  8 Apr 17:38 jonah_hill.jpg
+Conals-MacBook-Pro:faces daniel$ cd ..
+Conals-MacBook-Pro:21_jump_street daniel$ cd ..
+Conals-MacBook-Pro:round1 daniel$ ls
+21_jump_street		hugo			the_social_network
+captain_america		iron_man_2
+Conals-MacBook-Pro:round1 daniel$ cd ..
+Conals-MacBook-Pro:Experiments daniel$ l
+-bash: l: command not found
+Conals-MacBook-Pro:Experiments daniel$ ls
+round1				table1_datastructure_spec.txt
+Conals-MacBook-Pro:Experiments daniel$ cd ..
+Conals-MacBook-Pro:FYP daniel$ ls
+Celeb Datasets	M-Vad		M_Vad_Names	image purity	sloth-1.0
+Experiments	M-Vad AVI	Prototype	metric
+Conals-MacBook-Pro:FYP daniel$ cd Prototype/
+Conals-MacBook-Pro:Prototype daniel$ ls
+ExperimentRound1		input_faces
+Experiments			output.csv
+README.md			recognizeImages.py
+SampleVideoShort.mp4		sampleVideo.mp4
+dlib				unknown_faces
+experiment1.py			video_clips
+face_downloads			video_face_recognition.py
+googleSearchTest.py
+Conals-MacBook-Pro:Prototype daniel$ cd Experiment
+-bash: cd: Experiment: No such file or directory
+Conals-MacBook-Pro:Prototype daniel$ cd ExperimentRound1/
+Conals-MacBook-Pro:ExperimentRound1 daniel$ ls
+deleteme.py
+Conals-MacBook-Pro:ExperimentRound1 daniel$ python3 deleteme.py 
+Conals-MacBook-Pro:ExperimentRound1 daniel$ python3 deleteme.py 
+{'actor': 'dave_franco', 'character': 'dave_franco:unknown_character', 'encoding': 'ENcODiNg hERe'}
+{'actor': 'jonah_hill', 'character': 'schmidt', 'encoding': 'ENcODiNg hERe'}
+{'actor': 'brie_larson', 'character': 'brie_larson:unknown_character', 'encoding': 'ENcODiNg hERe'}
+{'actor': 'channing_tatum', 'character': 'jenko', 'encoding': 'ENcODiNg hERe'}
+Conals-MacBook-Pro:ExperimentRound1 daniel$ python3 deleteme.py 
+{'actor': 'dave_franco', 'character': 'dave_franco:unknown_character', 'encoding': 'ENcODiNg hERe'}
+{'actor': 'jonah_hill', 'character': 'schmidt', 'encoding': 'ENcODiNg hERe'}
+{'actor': 'brie_larson', 'character': 'brie_larson:unknown_character', 'encoding': 'ENcODiNg hERe'}
+{'actor': 'channing_tatum', 'character': 'jenko', 'encoding': 'ENcODiNg hERe'}
+Conals-MacBook-Pro:ExperimentRound1 daniel$ clear
+
+Conals-MacBook-Pro:ExperimentRound1 daniel$ python3 deleteme.py 
+{'actor': 'dave_franco', 'character': 'dave_franco:unknown_character', 'encoding': 'ENcODiNg hERe'}
+{'actor': 'jonah_hill', 'character': 'schmidt', 'encoding': 'ENcODiNg hERe'}
+{'actor': 'brie_larson', 'character': 'brie_larson:unknown_character', 'encoding': 'ENcODiNg hERe'}
+{'actor': 'channing_tatum', 'character': 'jenko', 'encoding': 'ENcODiNg hERe'}
+Conals-MacBook-Pro:ExperimentRound1 daniel$ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
