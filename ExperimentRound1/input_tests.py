@@ -4,12 +4,18 @@ import cv2
 
 '''
 
-What does contract expect?
-What does contract guarantee?
+REQUIREMENTS
+
+    path to images of the faces to be detected (.jpg)
+        names of actors must be written as the filename, with either a space or an underscore separating first& last name
+    The images in the input faces path should only have one face in them: the face of the actor the file is named after
+    filenames of images must be lower case and have spaces replaced with '_'
+
+GUARANTEES
 
  - return a list of records of info about an actor and the character they play. 
  For now this must be hand-coded for each film (ie: no relational database for cross referncing actor with all characters)
- - 
+ - Load pictures from faces folder, make record of name-features pair and learn how to recognize them.
 
  
 What does contract maintain?

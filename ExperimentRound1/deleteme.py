@@ -1,18 +1,5 @@
 import os
 
-'''
-
-What does contract expect?
-What does contract guarantee?
-
- - return a list of records of info about an actor and the character they play. 
- For now this must be hand-coded for each film (ie: no relational database for cross referncing actor with all characters)
- - 
-
- 
-What does contract maintain?
-
-'''
 
 known_actors = []
 name_mappings = {"channing_tatum":"jenko", "jonah_hill":"schmidt"}  #!!!!TEMPORARILY OVERWRITING PARAMETER
