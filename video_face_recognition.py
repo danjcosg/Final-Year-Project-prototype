@@ -1,4 +1,5 @@
-import face_recognition
+import face_recognition_models
+import dlib
 import cv2
 import Experiments.processing
 import os
@@ -10,23 +11,24 @@ Requirements:
 
     [dict] - face "knowledge" of characters to be detected:
         # actor knowledge base structure => [ {"actor":<actor name>, "character":<character name>, "encoding":<dlib face_encoding>} ]
-
-
-
 Output:
+    
 
 Side-Effects:
     prints results of each frame analysis
-    writes table1 and table2 data, stores final results in a pickle object
-
+    TODO: Writes table1 and table2 data, stores final results in a pickle object
 '''
 
+REC_JITTER = 0
+COMPARISON_TOLERANCE = 0.6
+DEFAULT_VIDEO_PATH = "/Users/daniel/Documents/FYP/Prototype/video_clips/21_JUMP_STREET_DVS20.avi" 
+TEST_IMAGE_PATH = "/Users/daniel/Documents/FYP/Experiments/round1_symlink/21_jump_street/faces/channing_tatum.jpg"
+if not os.path.exists("/Users/daniel/Documents/FYP/Experiments/round1_symlink/21_jump_street/faces"):
+    TEST_IMAGE_PATH = "/Users/daniel/Documents/FYP/Prototype/input_faces/channing_tatum.jpg"
+
+default_kb = {}
+
 def run(video_path, actor_kb):
-    # This is a demo of running face recognition on a video file and saving the results to a new video file.
-    #
-    # PLEASE NOTE: This example requires OpenCV (the `cv2` library) to be installed only to read from your webcam.
-    # OpenCV is *not* required to use the face_recognition library. It's only required if you want to run this
-    # specific demo. If you have trouble installing it, try any of the other demos that don't require it instead.
 
     # Open the input movie file
     input_movie = cv2.VideoCapture(video_path)
@@ -34,13 +36,6 @@ def run(video_path, actor_kb):
     FPS = input_movie.get(cv2.CAP_PROP_FPS)
     width =  int(input_movie.get(cv2.CAP_PROP_FRAME_WIDTH)) #1280
     height = int(input_movie.get(cv2.CAP_PROP_FRAME_HEIGHT)) #720
-    print(width)
-    print(height)
-
-    
-    # Create an output movie file (make sure resolution/frame rate matches input video!)
-    #fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    #output_movie = cv2.VideoWriter('output.avi', fourcc, FPS, (width, height))
 
     # split record list into lists of the columns (keeping order) for input into recognizer functions
     # maintaining order between the lists for easy referencing later on
@@ -51,22 +46,29 @@ def run(video_path, actor_kb):
         known_encodings.append(record['encoding'])
         known_characters.append(record['character'])
 
+    # setup the face detector & encoder for use on each frame
+    detector = dlib.get_frontal_face_detector()
+    shape_predictor_path = face_recognition_models.pose_predictor_model_location()
+    sp = dlib.shape_predictor(shape_predictor_path)
+    facerec_model_path = face_recognition_models.face_recognition_model_location()
+    recognizer = dlib.face_recognition_model_v1(facerec_model_path)
+
     # Initialize some variables
     face_locations = []
     detected_faces_encodings = []
     recognized_faces_names = []
     frame_number = 0
-
-    output_csv = open("output.csv", 'w')
-    output_names = []
-
+    '''
+        output_csv = open("output.csv", 'w')
+        output_names = []
+    '''
     while True:
 
-        # READ FRAME IN (OpenCV)
-
+        # READ FRAME IN
         # Grab a single frame of video
         ret, frame = input_movie.read()
         frame_number += 1
+        frame_copy = frame.copy()
 
         # Quit when the input video file ends
         if not ret:
@@ -76,35 +78,66 @@ def run(video_path, actor_kb):
         rgb_frame = frame[:, :, ::-1]
 
         # BEGIN FACE DETECTION & ENCODING OVER THE FRAME. (find ALL faces in the frame. NB: Encoding is like analysing a face. Recognition is encoding + comparing to some kb of encodings) 
-        # TODO: REWRITE WITHOUT USING facial_recognition
-        """
-        Returns an array of bounding boxes of human faces in a image
-        :param img: An image (as a numpy array)
-        :param number_of_times_to_upsample: How many times to upsample the image looking for faces. Higher numbers find smaller faces.
-        :param model: Which face detection model to use. "hog" is less accurate but faster on CPUs. "cnn" is a more accurate
-                    deep-learning model which is GPU/CUDA accelerated (if available). The default is "hog".
-        :return: A list of tuples of found face locations in css (top, right, bottom, left) order
-        """
-        face_locations = face_recognition.face_locations(rgb_frame)
-        detected_faces_encodings = face_recognition.face_encodings(rgb_frame, face_locations, 2)
+        # -- TODO: UNTESTED. Compare to face_recognition.py
+        print("getting locations:")
+        locations = detector(rgb_frame)
+        print("Done. Found {} faces".format(len(locations))
+        print("\nRunning shape predictor over each face:")
+        full_object_detections = []
+        for location in locations:
+            full_object_detections.append(sp(rgb_frame, location))  # An array of type full_object_detection[]. This object contains fields like the landmark points, but we pass the full thing to the recognizer
+        print("Done. ")
+        print("\nTrying to create descriptors for each face")
+        detected_face_encodings = []
+        # For each detected face, compute the face descriptor
+        # Jitter can improve quality of encoding, but increases the time taken in direct proportion to the number of jitters (jitter of 100 -> 100x as long)
+        if REC_JITTER == 0:
+            for landmarks in full_object_detections:
+                detected_face_encodings.append(recognizer.compute_face_descriptor(rgb_frame, landmarks))
+        else:
+            for landmarks in full_object_detections:
+                detected_face_encodings.append(recognizer.compute_face_descriptor(rgb_frame, landmarks, REC_JITTER))
+        print("Done")
+        print("Drawing on & Writing image")
 
+        # DRAW THE LOCATIONS FOUND BY THE DETECTOR
+        for location in locations:
+            cv2.rectangle(frame_copy, (location.bl_corner().x, location.bl_corner().y), (location.br_corner().x, location.br_corner().y - location.height()), (0,0,255), 1)
+
+        # DRAW THE LANDMARKS ON THE IMAGE AND WRITE AN IMAGE
+        # loop over the (x, y)-coordinates for the facial landmarks
+        # and draw each of them
+        for full_object_detection in enumerate(full_object_detections):
+            for point in full_object_detection.parts():
+                cv2.circle(frame_copy, (point.x, point.y), 1, (0, 0, 255), -1)
+
+        cv2.imwrite("frame_test1.jpg", frame_copy)
+        input("Continue?")
+
+        print("\nStarting to compare the encodings in knowledge base to those found in the image")
         # COMPARE FACES FOUND IN IMAGE TO KNOWN FACES, THEN SAVE NAMES OF THOSE RECOGNIZED  -- TODO: UNTESTED
         recognized_faces_names = []
         encodings_match = []
-        tolerance = 0.6
-        for face_encoding in detected_faces_encodings:
+        print("\tskipping euclidean distance for initial test, \n\tjust print the encodings instead")
+        for count, face_encoding in enumerate(detected_faces_encodings):
+            print("detected_faces_encodings[{}] == {}".format(count,face_encoding))
+            '''
             # calculate Euclidian distance (similarity) between this face encoding and each known face encodings. 
-            print("calculating encodings_match. Should be list of Booleans, size equal to No. the known faces")
-            encodings_match = [np.linalg.norm(known_encodings[i] - face_encoding, 1) <= tolerance for i in range(0, len(known_encodings))]
-            print("len encodings match: " + str(len(encodings_match)))
+            print("\tcalculating encodings_match. Should be list of Booleans, size equal to No. the known faces")
+            encodings_match = [np.linalg.norm(known_encodings[i] - face_encoding, 1) <= COMPARISON_TOLERANCE for i in range(0, len(known_encodings))]
+            print("\tlen encodings match: " + str(len(encodings_match)))
+            '''
             name = None
-            for i in range(0, len(known_encodings)):
-                if encodings_match[i]:
-                    name = known_characters[i]
-                    break
+            if encodings_match:
+                for i in range(0, len(known_encodings)):
+                    if encodings_match[i]:
+                        name = known_characters[i]
+                        break
             recognized_faces_names.append(name)
-
+        print("\nDone Comparing")
+        print("Recognized_faces_names: {}".format(recognized_faces_names))
         # FINISHED RECOGNIZING
+
         # OUTPUT RESULTS
         '''
         # Label the results
@@ -123,17 +156,37 @@ def run(video_path, actor_kb):
         # Write the resulting image to the output video file
         print("Writing frame {} / {}".format(frame_number, length))
         #output_movie.write(frame)
-        '''
+        
         print("{}, {}".format(frame_number/FPS, recognized_faces_names))
         output_csv.write("{}, {}\n".format(frame_number/FPS, recognized_faces_names))
 
         #append the output for this frame to list
         output_names.append(recognized_faces_names)
-
+        '''
 
     input_movie.release()
-    output_csv.close()
+    #output_csv.close()
     cv2.destroyAllWindows()
 
     #calculate percentages & pickle results
     #processing.getPercentages(output_names) #default bucket size is entire clip
+
+if __name__ == '__main__':
+    # Setup encodings for the KB
+    # eg:
+    detector = dlib.get_frontal_face_detector()
+    sp_path = face_recognition_models.pose_predictor_model_location()
+    sp = dlib.shape_predictor(sp_path)
+    rec_path = face_recognition_models.face_recognition_model_location()
+    rec = dlib.face_recognition_model_v1(rec_path)
+
+    input_face = cv2.imread(TEST_IMAGE_PATH)
+    input_face = input_face[:,:,::-1]
+
+    # Assume there's just one face
+    locations = detector(input_face)
+    detection_object = sp(input_face, locations[0])
+    encoding = rec(input_face, detection_object, REC_JITTER)
+    default_kb["channing_tatum"] = dict({"character_name":"Jenko","encoding":encoding})
+
+    run(DEFAULT_VIDEO_PATH, default_kb)

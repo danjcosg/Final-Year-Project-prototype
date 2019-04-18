@@ -6,48 +6,52 @@ import dlib
 import os
 
 print("starting visualization test")
-# This is a demo of running face recognition on a video file and saving the results to a new video file.
-#
-# PLEASE NOTE: This example requires OpenCV (the `cv2` library) to be installed only to read from your webcam.
-# OpenCV is *not* required to use the face_recognition library. It's only required if you want to run this
-# specific demo. If you have trouble installing it, try any of the other demos that don't require it instead.
 
-# Open the input movie file
-
-video_path = "../video_clips/21_JUMP_STREET_DVS20.avi"
-tatum_image_path = "./frame_1.png"
-print("attempting to load image from rel path: {}. \nCurrent working dir: {}".format(tatum_image_path, os.getcwd()))
-tatum_image = face_recognition.load_image_file(tatum_image_path)    #load image as numpy array in RGB format
-
-predictor_path = face_recognition_models.pose_predictor_model_location()
+image_path = "/Users/Daniel/Desktop/pips1.jpg"
+print("attempting to load image from path: {}. \nCurrent working dir: {}".format(image_path, os.getcwd()))
+image = face_recognition.load_image_file(image_path)    #load image as numpy array in RGB format
+#image = image[::-1]
+for i, row in enumerate(image):
+    for j, p in enumerate(row):
+        image[i][j] = p[::-1]
+'''
+for i, row in enumerate(image):
+    image[i] = row[::-1]
+'''
+predictor_path = face_recognition_models.pose_predictor_model_location()    # 68 points
 face_rec_model_path = face_recognition_models.face_recognition_model_location()
 
 # Load all the models we need: a detector to find the faces, a shape predictor
 # to find face landmarks so we can precisely localize the face, and finally the
 # face recognition model.
 print("\nLoading models: ")
+#detector_path = face_recognition_models.cnn_face_detector_model_location()
+#detector = dlib.cnn_face_detection_model_v1(detector_path)
 detector = dlib.get_frontal_face_detector()
 sp = dlib.shape_predictor(predictor_path)
 facerec = dlib.face_recognition_model_v1(face_rec_model_path)
 
-print("Getting locations: ")
-locations = detector(tatum_image)
+
+print("\nGetting locations of faces: ")
+locations = detector(image)
 print("Getting landmarks")
-full_object = sp.__call__(tatum_image, locations[0])
-print("Here are the landmarks:")
-landmarks = full_object.parts()   #dlib.points object
-print("Number of points: {}".format(full_object.num_parts))
-for point in landmarks:
-    print("{},{}".format(point.x, point.y),)
+landmarks = []
+for i, rectangle in enumerate(locations):
+    full_object = sp.__call__(image, locations[i])
+    landmarks.append(full_object.parts())
+
+# DRAW THE LOCATIONS FOUND BY THE DETECTOR
+for location in locations:
+    cv2.rectangle(image, (location.bl_corner().x, location.bl_corner().y), (location.br_corner().x, location.br_corner().y - location.height()), (0,0,255), 1)
 
 # DRAW THE LANDMARKS ON THE IMAGE AND WRITE AN IMAGE
 # loop over the (x, y)-coordinates for the facial landmarks
 # and draw each of them
-for point in landmarks:
-    x = point.x
-    y = point.y
-    cv2.circle(tatum_image, (x, y), 1, (0, 0, 255), -1)
+for points in landmarks:
+    for point in points:
+        cv2.circle(image, (point.x, point.y), 1, (0, 0, 255), -1)
+
 
 print("writing image: ")
-cv2.imwrite("frame_1_landmarked.png", tatum_image)
+cv2.imwrite("pips1_landmarked_frontal_detector.png", image)
 print("wrote it (apparently)")
