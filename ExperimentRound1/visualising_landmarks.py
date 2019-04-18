@@ -29,7 +29,7 @@ print("\nLoading models: ")
 #detector = dlib.cnn_face_detection_model_v1(detector_path)
 detector = dlib.get_frontal_face_detector()
 sp = dlib.shape_predictor(predictor_path)
-facerec = dlib.face_recognition_model_v1(face_rec_model_path)
+# facerec = dlib.face_recognition_model_v1(face_rec_model_path)
 
 
 print("\nGetting locations of faces: ")

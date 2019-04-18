@@ -12,7 +12,7 @@ Requirements:
     [dict] - face "knowledge" of characters to be detected:
         # actor knowledge base structure => [ {"actor":<actor name>, "character":<character name>, "encoding":<dlib face_encoding>} ]
 Output:
-    
+
 
 Side-Effects:
     prints results of each frame analysis
@@ -42,7 +42,7 @@ def run(video_path, actor_kb):
     # eg: known_encodings[1] is from the same record as known_characters[1], etc
     known_encodings = []
     known_characters = []
-    for record in actor_kb:
+    for actor_name, record in actor_kb.items():
         known_encodings.append(record['encoding'])
         known_characters.append(record['character'])
 
@@ -62,6 +62,7 @@ def run(video_path, actor_kb):
         output_csv = open("output.csv", 'w')
         output_names = []
     '''
+    print("-\n-\n-\n***\nFinished Setup, entering loop!\n")
     while True:
 
         # READ FRAME IN
@@ -79,25 +80,25 @@ def run(video_path, actor_kb):
 
         # BEGIN FACE DETECTION & ENCODING OVER THE FRAME. (find ALL faces in the frame. NB: Encoding is like analysing a face. Recognition is encoding + comparing to some kb of encodings) 
         # -- TODO: UNTESTED. Compare to face_recognition.py
-        print("getting locations:")
+        print("Getting locations:")
         locations = detector(rgb_frame)
-        print("Done. Found {} faces".format(len(locations))
+        print("Done. Found {} faces".format(len(locations)))
         print("\nRunning shape predictor over each face:")
         full_object_detections = []
         for location in locations:
             full_object_detections.append(sp(rgb_frame, location))  # An array of type full_object_detection[]. This object contains fields like the landmark points, but we pass the full thing to the recognizer
-        print("Done. ")
+        print("Done. Got shapes for {} faces".format(len(full_object_detections)))
         print("\nTrying to create descriptors for each face")
-        detected_face_encodings = []
+        detected_faces_encodings = []
         # For each detected face, compute the face descriptor
         # Jitter can improve quality of encoding, but increases the time taken in direct proportion to the number of jitters (jitter of 100 -> 100x as long)
         if REC_JITTER == 0:
             for landmarks in full_object_detections:
-                detected_face_encodings.append(recognizer.compute_face_descriptor(rgb_frame, landmarks))
+                detected_faces_encodings.append(recognizer.compute_face_descriptor(rgb_frame, landmarks))
         else:
             for landmarks in full_object_detections:
-                detected_face_encodings.append(recognizer.compute_face_descriptor(rgb_frame, landmarks, REC_JITTER))
-        print("Done")
+                detected_faces_encodings.append(recognizer.compute_face_descriptor(rgb_frame, landmarks, REC_JITTER))
+        print("Done. Got encodings for {} faces, from {} object detections".format(len(detected_faces_encodings),len(full_object_detections)))
         print("Drawing on & Writing image")
 
         # DRAW THE LOCATIONS FOUND BY THE DETECTOR
@@ -107,7 +108,9 @@ def run(video_path, actor_kb):
         # DRAW THE LANDMARKS ON THE IMAGE AND WRITE AN IMAGE
         # loop over the (x, y)-coordinates for the facial landmarks
         # and draw each of them
-        for full_object_detection in enumerate(full_object_detections):
+        print("Enumerating Full_object_detections: ")
+        for i, full_object_detection in enumerate(full_object_detections):
+            print("\tDrawing landmarks for face {}\n\tnum_parts: {}".format(i,full_object_detection.num_parts))
             for point in full_object_detection.parts():
                 cv2.circle(frame_copy, (point.x, point.y), 1, (0, 0, 255), -1)
 
@@ -120,7 +123,7 @@ def run(video_path, actor_kb):
         encodings_match = []
         print("\tskipping euclidean distance for initial test, \n\tjust print the encodings instead")
         for count, face_encoding in enumerate(detected_faces_encodings):
-            print("detected_faces_encodings[{}] == {}".format(count,face_encoding))
+            print("\t\tdetected_faces_encodings[{}] == {}".format(count,face_encoding))
             '''
             # calculate Euclidian distance (similarity) between this face encoding and each known face encodings. 
             print("\tcalculating encodings_match. Should be list of Booleans, size equal to No. the known faces")
@@ -128,14 +131,15 @@ def run(video_path, actor_kb):
             print("\tlen encodings match: " + str(len(encodings_match)))
             '''
             name = None
-            if encodings_match:
-                for i in range(0, len(known_encodings)):
-                    if encodings_match[i]:
-                        name = known_characters[i]
-                        break
+            
+            for i in range(0, len(encodings_match)):
+                if encodings_match[i]:
+                    name = known_characters[i]
+                    break
             recognized_faces_names.append(name)
         print("\nDone Comparing")
         print("Recognized_faces_names: {}".format(recognized_faces_names))
+        print("Finished Iteration\n\n")
         # FINISHED RECOGNIZING
 
         # OUTPUT RESULTS
@@ -186,7 +190,7 @@ if __name__ == '__main__':
     # Assume there's just one face
     locations = detector(input_face)
     detection_object = sp(input_face, locations[0])
-    encoding = rec(input_face, detection_object, REC_JITTER)
-    default_kb["channing_tatum"] = dict({"character_name":"Jenko","encoding":encoding})
+    encoding = rec.compute_face_descriptor(input_face, detection_object, REC_JITTER)
+    default_kb["channing_tatum"] = dict({"character":"Jenko","encoding":encoding})
 
     run(DEFAULT_VIDEO_PATH, default_kb)
