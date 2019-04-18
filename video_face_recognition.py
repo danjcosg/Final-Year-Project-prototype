@@ -99,7 +99,37 @@ def run(video_path, actor_kb):
             for landmarks in full_object_detections:
                 detected_faces_encodings.append(recognizer.compute_face_descriptor(rgb_frame, landmarks, REC_JITTER))
         print("Done. Got encodings for {} faces, from {} object detections".format(len(detected_faces_encodings),len(full_object_detections)))
-        print("Drawing on & Writing image")
+
+        print("\nStarting to compare the encodings in knowledge base to those found in the image")
+        # COMPARE FACES FOUND IN IMAGE TO KNOWN FACES, THEN SAVE NAMES OF THOSE RECOGNIZED  -- TODO: UNTESTED
+        recognized_faces_names = []
+        encodings_match = []
+        known_recognized_count = 0
+        for count, face_encoding in enumerate(detected_faces_encodings):
+            
+            # calculate Euclidian distance (similarity) between this face encoding and each known face encodings. 
+            print("\tcalculating encodings_match for face {}. (Should be list of Booleans, size equal to No. the known faces)".format(count))
+            
+            encodings_match = [np.linalg.norm(np.array(known_encodings[i]) - np.array(face_encoding)) <= COMPARISON_TOLERANCE for i in range(0, len(known_encodings))]
+            print("\tlen encodings match: " + str(len(encodings_match)))
+            print("encodings_match == {}".format(encodings_match))
+            
+            # finally, match any recognized encoding to the associated name. 
+            name = None
+            for i in range(0, len(encodings_match)):
+                if encodings_match[i]:
+                    known_recognized_count += 1
+                    name = known_characters[i]
+                    break
+            recognized_faces_names.append(name)
+        print("\nDone Comparing, recognized {} known faces:".format(known_recognized_count))
+        for name in recognized_faces_names:
+            print("\t" + str(name))
+        # FINISHED RECOGNIZING
+
+        # OUTPUT RESULTS
+
+        print("\nDrawing on & Writing image")
 
         # DRAW THE LOCATIONS FOUND BY THE DETECTOR
         for location in locations:
@@ -108,41 +138,23 @@ def run(video_path, actor_kb):
         # DRAW THE LANDMARKS ON THE IMAGE AND WRITE AN IMAGE
         # loop over the (x, y)-coordinates for the facial landmarks
         # and draw each of them
-        print("Enumerating Full_object_detections: ")
         for i, full_object_detection in enumerate(full_object_detections):
-            print("\tDrawing landmarks for face {}\n\tnum_parts: {}".format(i,full_object_detection.num_parts))
             for point in full_object_detection.parts():
                 cv2.circle(frame_copy, (point.x, point.y), 1, (0, 0, 255), -1)
+        cv2.imwrite("frame_test1_orig.jpg",frame)
+        cv2.imwrite("frame_test1_landmarks.jpg", frame_copy)
+        # DRAW THE NAME OF THE DETECTED CHARACTER
+        for i, name in enumerate(known_characters):
+            width = locations[i].width()
+            height = locations[i].height()
+            bl_corner = locations[i].bl_corner()
+            cv2.rectangle(frame_copy, (bl_corner.x, bl_corner.y - height), (bl_corner.x + width, bl_corner.y - height - 23), (0,0,255), 1 )
+            cv2.putText(frame_copy, name,(locations[i].bl_corner().x,locations[i].bl_corner().y - locations[i].height()), cv2.FONT_HERSHEY_SIMPLEX, 1, (200,255,155))
 
-        cv2.imwrite("frame_test1.jpg", frame_copy)
+        cv2.imwrite("frame_test1_landmarks_name.jpg", frame_copy)
+        
         input("Continue?")
 
-        print("\nStarting to compare the encodings in knowledge base to those found in the image")
-        # COMPARE FACES FOUND IN IMAGE TO KNOWN FACES, THEN SAVE NAMES OF THOSE RECOGNIZED  -- TODO: UNTESTED
-        recognized_faces_names = []
-        encodings_match = []
-        print("\tskipping euclidean distance for initial test, \n\tjust print the encodings instead")
-        for count, face_encoding in enumerate(detected_faces_encodings):
-            print("\t\tdetected_faces_encodings[{}] == {}".format(count,face_encoding))
-            '''
-            # calculate Euclidian distance (similarity) between this face encoding and each known face encodings. 
-            print("\tcalculating encodings_match. Should be list of Booleans, size equal to No. the known faces")
-            encodings_match = [np.linalg.norm(known_encodings[i] - face_encoding, 1) <= COMPARISON_TOLERANCE for i in range(0, len(known_encodings))]
-            print("\tlen encodings match: " + str(len(encodings_match)))
-            '''
-            name = None
-            
-            for i in range(0, len(encodings_match)):
-                if encodings_match[i]:
-                    name = known_characters[i]
-                    break
-            recognized_faces_names.append(name)
-        print("\nDone Comparing")
-        print("Recognized_faces_names: {}".format(recognized_faces_names))
-        print("Finished Iteration\n\n")
-        # FINISHED RECOGNIZING
-
-        # OUTPUT RESULTS
         '''
         # Label the results
         for (top, right, bottom, left), name in zip(face_locations, face_names):
