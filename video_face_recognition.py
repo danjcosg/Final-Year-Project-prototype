@@ -28,6 +28,7 @@ if not os.path.exists("/Users/daniel/Documents/FYP/Experiments/round1_symlink/21
 
 default_kb = {}
 
+# TODO: Output SAMPLE of each scene as video
 def run(video_path, actor_kb):
 
     # Open the input movie file
@@ -58,10 +59,8 @@ def run(video_path, actor_kb):
     detected_faces_encodings = []
     recognized_faces_names = []
     frame_number = 0
-    '''
-        output_csv = open("output.csv", 'w')
-        output_names = []
-    '''
+    
+    output_csv = open("output_test1.csv", 'w')
     print("-\n-\n-\n***\nFinished Setup, entering loop!\n")
     while True:
 
@@ -69,7 +68,6 @@ def run(video_path, actor_kb):
         # Grab a single frame of video
         ret, frame = input_movie.read()
         frame_number += 1
-        frame_copy = frame.copy()
 
         # Quit when the input video file ends
         if not ret:
@@ -77,18 +75,12 @@ def run(video_path, actor_kb):
 
         # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
         rgb_frame = frame[:, :, ::-1]
-
+        frame_copy = frame.copy()
         # BEGIN FACE DETECTION & ENCODING OVER THE FRAME. (find ALL faces in the frame. NB: Encoding is like analysing a face. Recognition is encoding + comparing to some kb of encodings) 
-        # -- TODO: UNTESTED. Compare to face_recognition.py
-        print("Getting locations:")
         locations = detector(rgb_frame)
-        print("Done. Found {} faces".format(len(locations)))
-        print("\nRunning shape predictor over each face:")
         full_object_detections = []
         for location in locations:
             full_object_detections.append(sp(rgb_frame, location))  # An array of type full_object_detection[]. This object contains fields like the landmark points, but we pass the full thing to the recognizer
-        print("Done. Got shapes for {} faces".format(len(full_object_detections)))
-        print("\nTrying to create descriptors for each face")
         detected_faces_encodings = []
         # For each detected face, compute the face descriptor
         # Jitter can improve quality of encoding, but increases the time taken in direct proportion to the number of jitters (jitter of 100 -> 100x as long)
@@ -98,9 +90,9 @@ def run(video_path, actor_kb):
         else:
             for landmarks in full_object_detections:
                 detected_faces_encodings.append(recognizer.compute_face_descriptor(rgb_frame, landmarks, REC_JITTER))
-        print("Done. Got encodings for {} faces, from {} object detections".format(len(detected_faces_encodings),len(full_object_detections)))
-
-        print("\nStarting to compare the encodings in knowledge base to those found in the image")
+        # print("Done. Got encodings for {} faces, from {} object detections".format(len(detected_faces_encodings),len(full_object_detections)))
+        # print("\nStarting to compare the encodings in knowledge base to those found in the image")
+        
         # COMPARE FACES FOUND IN IMAGE TO KNOWN FACES, THEN SAVE NAMES OF THOSE RECOGNIZED  -- TODO: UNTESTED
         recognized_faces_names = []
         encodings_match = []
@@ -108,12 +100,7 @@ def run(video_path, actor_kb):
         for count, face_encoding in enumerate(detected_faces_encodings):
             
             # calculate Euclidian distance (similarity) between this face encoding and each known face encodings. 
-            print("\tcalculating encodings_match for face {}. (Should be list of Booleans, size equal to No. the known faces)".format(count))
-            
             encodings_match = [np.linalg.norm(np.array(known_encodings[i]) - np.array(face_encoding)) <= COMPARISON_TOLERANCE for i in range(0, len(known_encodings))]
-            print("\tlen encodings match: " + str(len(encodings_match)))
-            print("encodings_match == {}".format(encodings_match))
-            
             # finally, match any recognized encoding to the associated name. 
             name = None
             for i in range(0, len(encodings_match)):
@@ -122,16 +109,13 @@ def run(video_path, actor_kb):
                     name = known_characters[i]
                     break
             recognized_faces_names.append(name)
-        print("\nDone Comparing, recognized {} known faces:".format(known_recognized_count))
+        # print("\nDone Comparing, recognized {} known faces:".format(known_recognized_count))
         for name in recognized_faces_names:
             print("\t" + str(name))
         # FINISHED RECOGNIZING
 
         # OUTPUT RESULTS
-
-        print("\nDrawing on & Writing image")
-
-        # DRAW THE LOCATIONS FOUND BY THE DETECTOR
+        # Draw the locations found by the detector
         for location in locations:
             cv2.rectangle(frame_copy, (location.bl_corner().x, location.bl_corner().y), (location.br_corner().x, location.br_corner().y - location.height()), (0,0,255), 1)
 
@@ -143,45 +127,26 @@ def run(video_path, actor_kb):
                 cv2.circle(frame_copy, (point.x, point.y), 1, (0, 0, 255), -1)
         cv2.imwrite("frame_test1_orig.jpg",frame)
         cv2.imwrite("frame_test1_landmarks.jpg", frame_copy)
-        # DRAW THE NAME OF THE DETECTED CHARACTER
-        for i, name in enumerate(known_characters):
-            width = locations[i].width()
-            height = locations[i].height()
-            bl_corner = locations[i].bl_corner()
-            cv2.rectangle(frame_copy, (bl_corner.x, bl_corner.y - height), (bl_corner.x + width, bl_corner.y - height - 23), (0,0,255), 1 )
-            cv2.putText(frame_copy, name,(locations[i].bl_corner().x,locations[i].bl_corner().y - locations[i].height()), cv2.FONT_HERSHEY_SIMPLEX, 1, (200,255,155))
+        if locations:
+            # Draw the name of the detected character
+            for i, name in enumerate(known_characters):
+                width = locations[i].width()
+                height = locations[i].height()
+                bl_corner = locations[i].bl_corner()
+                cv2.rectangle(frame_copy, (bl_corner.x, bl_corner.y - height), (bl_corner.x + width, bl_corner.y - height - 23), (0,0,255), 1 )
+                cv2.putText(frame_copy, name,(locations[i].bl_corner().x,locations[i].bl_corner().y - locations[i].height()), cv2.FONT_HERSHEY_SIMPLEX, 1, (200,255,155))
 
         cv2.imwrite("frame_test1_landmarks_name.jpg", frame_copy)
         
-        input("Continue?")
-
-        '''
-        # Label the results
-        for (top, right, bottom, left), name in zip(face_locations, face_names):
-            if not name:
-                continue
-
-            # Draw a box around the face
-            cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
-
-            # Draw a label with a name below the face
-            cv2.rectangle(frame, (left, bottom - 25), (right, bottom), (0, 0, 255), cv2.FILLED)
-            font = cv2.FONT_HERSHEY_DUPLEX
-            cv2.putText(frame, name, (left + 6, bottom - 6), font, 0.5, (255, 255, 255), 1)
-
-        # Write the resulting image to the output video file
-        print("Writing frame {} / {}".format(frame_number, length))
+        # Write the resulting image to the output TODO:video file
         #output_movie.write(frame)
         
         print("{}, {}".format(frame_number/FPS, recognized_faces_names))
         output_csv.write("{}, {}\n".format(frame_number/FPS, recognized_faces_names))
-
-        #append the output for this frame to list
-        output_names.append(recognized_faces_names)
-        '''
-
+        # append the output for this frame to list
+        
     input_movie.release()
-    #output_csv.close()
+    output_csv.close()
     cv2.destroyAllWindows()
 
     #calculate percentages & pickle results
@@ -189,7 +154,6 @@ def run(video_path, actor_kb):
 
 if __name__ == '__main__':
     # Setup encodings for the KB
-    # eg:
     detector = dlib.get_frontal_face_detector()
     sp_path = face_recognition_models.pose_predictor_model_location()
     sp = dlib.shape_predictor(sp_path)
@@ -206,3 +170,6 @@ if __name__ == '__main__':
     default_kb["channing_tatum"] = dict({"character":"Jenko","encoding":encoding})
 
     run(DEFAULT_VIDEO_PATH, default_kb)
+
+def getPercentages(video_path, actor_kb):
+    return dict({"channing_tatum":71, "jonah_hill":40})
