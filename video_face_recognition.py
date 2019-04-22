@@ -25,6 +25,7 @@ DEFAULT_VIDEO_PATH = "/Users/daniel/Documents/FYP/Prototype/video_clips/21_JUMP_
 TEST_IMAGE_PATH = "/Users/daniel/Documents/FYP/Experiments/round1_symlink/21_jump_street/faces/channing_tatum.jpg"
 if not os.path.exists("/Users/daniel/Documents/FYP/Experiments/round1_symlink/21_jump_street/faces"):
     TEST_IMAGE_PATH = "/Users/daniel/Documents/FYP/Prototype/input_faces/channing_tatum.jpg"
+STRIDE = 1
 
 default_kb = {}
 
@@ -35,7 +36,7 @@ if not os.path.exists(OUTPUT_DIR):
     os.makedirs(OUTPUT_DIR)
 
 # TODO: Output SAMPLE of each scene as video
-def run(video_path, actor_kb):
+def run(video_path, actor_kb, stride = 1):
 
     # setup the face detector & encoder for use on each frame
     detector = dlib.get_frontal_face_detector()
@@ -89,21 +90,26 @@ def run(video_path, actor_kb):
     for actor_name, actor_info in actor_kb.items():
         actor_kb[actor_name]["count"] = 0
     
-    print("-\n-\n-\n***\nrecognizer: Finished Setup, entering loop!\n")
+    frames_analysed = 0
+    print("\n\trecognizer: Finished Setup, entering loop!\n\tINPUT VIDEO: {}".format(video_path))
     while True:
-
         # READ FRAME IN
         # Grab a single frame of video
         ret, frame = input_movie.read()
-        frame_number += 1
-
+        
         # Quit when the input video file ends
         if not ret:
             break
 
+        frame_number += 1
+        if not frame_number % stride == 0:
+            continue
+        
+        frames_analysed += 1
+
         # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
         rgb_frame = frame[:, :, ::-1]
-        frame_copy = frame.copy()
+        #frame_copy = frame.copy()
         # BEGIN FACE DETECTION & ENCODING OVER THE FRAME. (find ALL faces in the frame. NB: Encoding is like analysing a face. Recognition is encoding + comparing to some kb of encodings) 
         locations = detector(rgb_frame)
         full_object_detections = []
@@ -134,13 +140,12 @@ def run(video_path, actor_kb):
                 if encodings_match[i]:
                     name = known_characters[i]
                     counts[i] += 1
-                    #actor_kb[name]["count"] += 1
                     break
             recognized_faces_names.append(name)
-        print("\nDone Comparing")
-        print("\tCurrent count: ")
-        for i, character_name in enumerate(known_characters):
-            print("\t{} : {}".format(character_name , counts[i]))
+        #print("\nDone Comparing")
+        #print("\tCurrent count: ")
+        #for i, character_name in enumerate(known_characters):
+        #    print("\t{} : {}".format(character_name , counts[i]))
         # FINISHED RECOGNIZING
 
         '''
@@ -169,33 +174,39 @@ def run(video_path, actor_kb):
         cv2.imwrite("", frame_copy)
         '''
         
-        print("{}, {}".format(frame_number/FPS, recognized_faces_names))
-        
+        #print("{}, {}".format(frame_number/FPS, recognized_faces_names))
+    #print("\n\tRecognizer: Finished processing {}".format(video_path))
     input_movie.release()
     cv2.destroyAllWindows()
 
     # Store counts for each actor in an updated knowledge base
-    # TODO: UNTESTED
     characters_to_actors = {}
     for actor_name, info in actor_kb.items():
         characters_to_actors[info["character"]] = actor_name
 
     for i, name in enumerate(known_characters):
         actor_kb[characters_to_actors[name]]["count"] = counts[i]
+        del actor_kb[characters_to_actors[name]]["encoding"]
+    print("\tRecognizer: getPercentages:run:\n\t\ttotal_frames == {}\n\t\tStride == {}\n\t\tReturning tuple: (actor_kb, frames_analysed) == ({},{})".format(frame_number,STRIDE, actor_kb, frames_analysed))
+    #input("Continue?")
+    return (actor_kb, frames_analysed, frame_number)
 
-    return (actor_kb, length)
-
-def getPercentages(video_path, actor_kb):
-    # TODO: UNTESTED
+#
+# parameters: (path_to_video, actor_data_mapping, frame_stride)
+# returns: (actor_percentage_map, n_frames_analysed, n_frames)
+# side effects: print to stdout
+def getPercentages(video_path, actor_kb, stride = 1):
     #processing.getPercentages(output_names) #default bucket size is entire clip
-    tup = run(video_path, actor_kb)
+    tup = run(video_path, actor_kb, stride)
     length = tup[1]
     ret = {}
     for name, data in actor_kb.items():
-        ret[name] = int(actor_kb["count"] / length)
-    return ret
+        ret[name] = (float(data["count"]) / float(length)) * 100.0
+    print("\trecognizer: Get Percentages: \n\t\tConverted counts from run() to percentages. \n\t\t Returning dictionary: \n\t\tret=={}".format(ret))
+    #input("Continue?")
+    return (ret, tup[1], tup[2])
 
 if __name__ == '__main__':
 
     #run(DEFAULT_VIDEO_PATH, default_kb)
-    print("{} : {}".format(name, percentage) for name, percentage in getPercentages(DEFAULT_VIDEO_PATH, default_kb).items())
+    print("{} : {}".format(name, percentage) for name, percentage in getPercentages(DEFAULT_VIDEO_PATH, default_kb).items()[0])

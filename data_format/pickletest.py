@@ -9,7 +9,7 @@ table1 = {
 }
 
 #write a table to a new pickle file
-pickle_filename = pickletest_table1
+pickle_filename = "pickletest_table1"
 with open(pickle_filename, 'w+b') as pfile:
     pickle.dump(table1, pfile)
 

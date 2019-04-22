@@ -7,19 +7,20 @@ import os
 import face_recognition_models
 import dlib
 import cv2
+import time
+import pickle
 
-# TODO: decide on output format. What files? What directories? Should directories be made by this program? (yes, if none is specified))
-FILM_NAME = "21_jump_street"
-OUTPUT_DIR = "../results/round_1/21_jump_street/"
+FILM_NAME = "captain_america"
+OUTPUT_DIR = "../results/round_1/captain_america/"
 if not os.path.exists(OUTPUT_DIR):
     os.makedirs(OUTPUT_DIR)
 
 # GET QUERY
 
 EXPERIMENT_DIR = "./"
-FILM_DATA_DIR = "../data/round1_symlink/21_jump_street/"
+FILM_DATA_DIR = "../data/round1_symlink/captain_america/"
 VIDEO_DIR = FILM_DATA_DIR + "video_clips/"
-FACES_DIR = FILM_DATA_DIR + "faces/"
+FACES_DIR = FILM_DATA_DIR + "faces/manual_best/"
 SCENES = ["scene_0","scene_1","scene_2","scene_3","scene_4"]
 
 def get_div_dir(scene_number):
@@ -28,7 +29,7 @@ def get_div_dir(scene_number):
 # actor_kb structure: {"actor_name" : {"character_name":"", "image_path":""}}
 actor_kb = {}
 name_mappings = {"channing_tatum":"jenko", "jonah_hill":"schmidt", "brie_larson" : "molly_tracey", "dave_franco":"eric_molson"}
-
+name_mappings_captain_america = {"chris_evans":"steve_rogers","hayley_atwell":"peggy_carter","sebastian_stan":"james_buchanan_barnes","tommy_lee_jones":"col_chester_phillips"}
 # CREATE KNOWLEDGE BASE OF ACTORS & REFERENCE IMAGE PATHS & CHARACTERS RELEVANT TO QUERY
 for name in name_mappings:
     actor_kb[name] = dict({"character":"","image_path":""})
@@ -66,8 +67,6 @@ input("continue?")
 # USING QUERY, THE VIDEO IS SPLIT INTO DIVISIONS, EACH DIVISION GETS A PERCENTAGE
 # FOR DIVISION IN SCENE, RECOGNIZE FACES IN SELECTED DIVISION
 for i, scene in enumerate(SCENES):
-    i = 1
-    scene = SCENES[1]
     # Initialize output stuff for this scene
     # Result format: list of percentages, for each actor in query. Element (percentage) is added for each division searched. 
     if not os.path.exists(OUTPUT_DIR + scene):
@@ -80,14 +79,15 @@ for i, scene in enumerate(SCENES):
     #print("Initialized results: \n\t{}".format(results))
     #input("Continue?")
 
+    start_time = time.time()
     div_dir = get_div_dir(i)
     for j, video_path in enumerate(os.listdir(div_dir)):
-
-        # From this video division, get the percentage for each actor 
-        percentages = video_face_recognition.getPercentages(div_dir + video_path, actor_kb)
+        # From this video division, get the percentage for each actor
+        info = video_face_recognition.getPercentages(div_dir + video_path, actor_kb, 3)
+        percentages = info[0]
         for name, percentage in percentages.items():
             results[name].append(percentage) 
-
+    stop_time = time.time()
     if os.path.exists(OUTPUT_DIR):
         dir = OUTPUT_DIR + scene + "/" 
     else:
@@ -97,9 +97,16 @@ for i, scene in enumerate(SCENES):
     print("Writing results for scene {}".format(i))
     for actor, val in results.items():
         out.write("{},{}\n".format(actor,val))
+    out.write("\nTime to process/sec, {}".format(stop_time - start_time))
+    out.write("\nFrames analysed: {}/{}".format(info[1], info[2]))
     out.close()
 
     # TODO: COMPILE & PROCESS THE RESULTS INTO TABLE FORMAT
     # I want to DISPLAY results immediately as a histogram
     # And also PICKLE them for later analysis. The pickle should contain metadata about the experiment: Date, time, length of experiment vs length of video, the scene being analysed (eg: 21_jump_street_scene1, 21_jump_street_scene2)
     #pickle(results, i, SCENES[i], getTime, )
+    #write a table to a new pickle file
+    pickle_filename = FILM_NAME + "_" + scene + "_info.pkl"
+    pickle_data = info + tuple(dict({"time": (stop_time - start_time), "film_name":FILM_NAME, "scene":scene}))
+    with open(OUTPUT_DIR + scene + "/" + pickle_filename, 'w+b') as pfile:
+        pickle.dump(pickle_data, pfile)
