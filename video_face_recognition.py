@@ -1,9 +1,9 @@
 import face_recognition_models
 import dlib
 import cv2
-import Experiments.processing
 import os
 import numpy as np
+import face_recognition
 
 '''
 Requirements: 
@@ -28,24 +28,14 @@ if not os.path.exists("/Users/daniel/Documents/FYP/Experiments/round1_symlink/21
 
 default_kb = {}
 
+# TODO: decide on output format. What files? What directories? Should directories be made by this program? (yes, if none is specified))
+FILM_NAME = "21_jump_street"
+OUTPUT_DIR = "../results/round_1/21_jump_street/"
+if not os.path.exists(OUTPUT_DIR):
+    os.makedirs(OUTPUT_DIR)
+
 # TODO: Output SAMPLE of each scene as video
 def run(video_path, actor_kb):
-
-    # Open the input movie file
-    input_movie = cv2.VideoCapture(video_path)
-    length = int(input_movie.get(cv2.CAP_PROP_FRAME_COUNT))
-    FPS = input_movie.get(cv2.CAP_PROP_FPS)
-    width =  int(input_movie.get(cv2.CAP_PROP_FRAME_WIDTH)) #1280
-    height = int(input_movie.get(cv2.CAP_PROP_FRAME_HEIGHT)) #720
-
-    # split record list into lists of the columns (keeping order) for input into recognizer functions
-    # maintaining order between the lists for easy referencing later on
-    # eg: known_encodings[1] is from the same record as known_characters[1], etc
-    known_encodings = []
-    known_characters = []
-    for actor_name, record in actor_kb.items():
-        known_encodings.append(record['encoding'])
-        known_characters.append(record['character'])
 
     # setup the face detector & encoder for use on each frame
     detector = dlib.get_frontal_face_detector()
@@ -54,14 +44,52 @@ def run(video_path, actor_kb):
     facerec_model_path = face_recognition_models.face_recognition_model_location()
     recognizer = dlib.face_recognition_model_v1(facerec_model_path)
 
+    # Add face reference encodings to our version of KB
+    # TODO: untested
+    detector = dlib.get_frontal_face_detector()
+    sp_path = face_recognition_models.pose_predictor_model_location()
+    sp = dlib.shape_predictor(sp_path)
+    rec_path = face_recognition_models.face_recognition_model_location()
+    rec = dlib.face_recognition_model_v1(rec_path)
+
+    for actor_name, actor_info in actor_kb.items():
+
+        image = cv2.imread(actor_info["image_path"])
+        face_rgb = image[:,:,::-1]
+    
+        locations = detector(face_rgb)
+        # Assume there's only one face in the reference image
+        detection_object = sp(face_rgb, locations[0])
+        encoding = rec.compute_face_descriptor(face_rgb, detection_object, REC_JITTER)
+        actor_kb[actor_name]["encoding"] = encoding
+
+    # split record list into lists of the columns (keeping order) for input into recognizer functions
+    # maintaining order between the lists for easy referencing later on
+    # eg: known_encodings[1] is from the same record as known_characters[1], etc
+    known_encodings = []
+    known_characters = []
+    counts = []
+    for actor_name, record in actor_kb.items():
+        known_encodings.append(record['encoding'])
+        known_characters.append(record['character'])
+        counts.append(0)
+
+    # Open the input movie file
+    input_movie = cv2.VideoCapture(video_path)
+    length = int(input_movie.get(cv2.CAP_PROP_FRAME_COUNT))
+    FPS = input_movie.get(cv2.CAP_PROP_FPS)
+    width =  int(input_movie.get(cv2.CAP_PROP_FRAME_WIDTH)) #1280
+    height = int(input_movie.get(cv2.CAP_PROP_FRAME_HEIGHT)) #720
+
     # Initialize some variables
     face_locations = []
     detected_faces_encodings = []
     recognized_faces_names = []
     frame_number = 0
+    for actor_name, actor_info in actor_kb.items():
+        actor_kb[actor_name]["count"] = 0
     
-    output_csv = open("output_test1.csv", 'w')
-    print("-\n-\n-\n***\nFinished Setup, entering loop!\n")
+    print("-\n-\n-\n***\nrecognizer: Finished Setup, entering loop!\n")
     while True:
 
         # READ FRAME IN
@@ -93,10 +121,9 @@ def run(video_path, actor_kb):
         # print("Done. Got encodings for {} faces, from {} object detections".format(len(detected_faces_encodings),len(full_object_detections)))
         # print("\nStarting to compare the encodings in knowledge base to those found in the image")
         
-        # COMPARE FACES FOUND IN IMAGE TO KNOWN FACES, THEN SAVE NAMES OF THOSE RECOGNIZED  -- TODO: UNTESTED
+        # COMPARE FACES FOUND IN IMAGE TO KNOWN FACES, THEN SAVE NAMES OF THOSE RECOGNIZED
         recognized_faces_names = []
         encodings_match = []
-        known_recognized_count = 0
         for count, face_encoding in enumerate(detected_faces_encodings):
             
             # calculate Euclidian distance (similarity) between this face encoding and each known face encodings. 
@@ -105,28 +132,31 @@ def run(video_path, actor_kb):
             name = None
             for i in range(0, len(encodings_match)):
                 if encodings_match[i]:
-                    known_recognized_count += 1
                     name = known_characters[i]
+                    counts[i] += 1
+                    #actor_kb[name]["count"] += 1
                     break
             recognized_faces_names.append(name)
-        # print("\nDone Comparing, recognized {} known faces:".format(known_recognized_count))
-        for name in recognized_faces_names:
-            print("\t" + str(name))
+        print("\nDone Comparing")
+        print("\tCurrent count: ")
+        for i, character_name in enumerate(known_characters):
+            print("\t{} : {}".format(character_name , counts[i]))
         # FINISHED RECOGNIZING
 
-        # OUTPUT RESULTS
+        '''
+        # WRITE SOME IMAGES FOR VERIFICATION
         # Draw the locations found by the detector
         for location in locations:
             cv2.rectangle(frame_copy, (location.bl_corner().x, location.bl_corner().y), (location.br_corner().x, location.br_corner().y - location.height()), (0,0,255), 1)
 
-        # DRAW THE LANDMARKS ON THE IMAGE AND WRITE AN IMAGE
+        # TODO: DRAW THE LANDMARKS ON THE IMAGE AND WRITE AN IMAGE FOR EVERY nth FRAME, m TIMES PER SCENE
         # loop over the (x, y)-coordinates for the facial landmarks
         # and draw each of them
         for i, full_object_detection in enumerate(full_object_detections):
             for point in full_object_detection.parts():
                 cv2.circle(frame_copy, (point.x, point.y), 1, (0, 0, 255), -1)
-        cv2.imwrite("frame_test1_orig.jpg",frame)
-        cv2.imwrite("frame_test1_landmarks.jpg", frame_copy)
+        cv2.imwrite("",frame)
+        cv2.imwrite("", frame_copy)
         if locations:
             # Draw the name of the detected character
             for i, name in enumerate(known_characters):
@@ -136,40 +166,36 @@ def run(video_path, actor_kb):
                 cv2.rectangle(frame_copy, (bl_corner.x, bl_corner.y - height), (bl_corner.x + width, bl_corner.y - height - 23), (0,0,255), 1 )
                 cv2.putText(frame_copy, name,(locations[i].bl_corner().x,locations[i].bl_corner().y - locations[i].height()), cv2.FONT_HERSHEY_SIMPLEX, 1, (200,255,155))
 
-        cv2.imwrite("frame_test1_landmarks_name.jpg", frame_copy)
-        
-        # Write the resulting image to the output TODO:video file
-        #output_movie.write(frame)
+        cv2.imwrite("", frame_copy)
+        '''
         
         print("{}, {}".format(frame_number/FPS, recognized_faces_names))
-        output_csv.write("{}, {}\n".format(frame_number/FPS, recognized_faces_names))
-        # append the output for this frame to list
         
     input_movie.release()
-    output_csv.close()
     cv2.destroyAllWindows()
 
-    #calculate percentages & pickle results
-    #processing.getPercentages(output_names) #default bucket size is entire clip
+    # Store counts for each actor in an updated knowledge base
+    # TODO: UNTESTED
+    characters_to_actors = {}
+    for actor_name, info in actor_kb.items():
+        characters_to_actors[info["character"]] = actor_name
 
-if __name__ == '__main__':
-    # Setup encodings for the KB
-    detector = dlib.get_frontal_face_detector()
-    sp_path = face_recognition_models.pose_predictor_model_location()
-    sp = dlib.shape_predictor(sp_path)
-    rec_path = face_recognition_models.face_recognition_model_location()
-    rec = dlib.face_recognition_model_v1(rec_path)
+    for i, name in enumerate(known_characters):
+        actor_kb[characters_to_actors[name]]["count"] = counts[i]
 
-    input_face = cv2.imread(TEST_IMAGE_PATH)
-    input_face = input_face[:,:,::-1]
-
-    # Assume there's just one face
-    locations = detector(input_face)
-    detection_object = sp(input_face, locations[0])
-    encoding = rec.compute_face_descriptor(input_face, detection_object, REC_JITTER)
-    default_kb["channing_tatum"] = dict({"character":"Jenko","encoding":encoding})
-
-    run(DEFAULT_VIDEO_PATH, default_kb)
+    return (actor_kb, length)
 
 def getPercentages(video_path, actor_kb):
-    return dict({"channing_tatum":71, "jonah_hill":40})
+    # TODO: UNTESTED
+    #processing.getPercentages(output_names) #default bucket size is entire clip
+    tup = run(video_path, actor_kb)
+    length = tup[1]
+    ret = {}
+    for name, data in actor_kb.items():
+        ret[name] = int(actor_kb["count"] / length)
+    return ret
+
+if __name__ == '__main__':
+
+    #run(DEFAULT_VIDEO_PATH, default_kb)
+    print("{} : {}".format(name, percentage) for name, percentage in getPercentages(DEFAULT_VIDEO_PATH, default_kb).items())

@@ -1,0 +1,30 @@
+table 1 holds information about:
+    1) which characters are actually in each clip (according to M-Vad names) and 
+    2) which characters were detected by system and
+    3) the experiment name and datetime
+
+    There is only information about whether or not they are present/detected in the clip; no higher resolution than that
+    ****
+
+dictionary of string:list pairs:
+
+{
+    clip1 : 
+        [ 
+            gsNames[ ], 
+            detectedNames[ ],
+        ]
+    clip2 : 
+        [ 
+            gsNames[ ], 
+            detectedNames[ ],
+        ]
+    clip3 : 
+        [ 
+            gsNames[], 
+            detectedNames[ ] 
+        ]
+    .
+    .
+    .
+}
