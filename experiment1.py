@@ -28,8 +28,8 @@ def get_div_dir(scene_number):
 
 # actor_kb structure: {"actor_name" : {"character_name":"", "image_path":""}}
 actor_kb = {}
-name_mappings = {"channing_tatum":"jenko", "jonah_hill":"schmidt", "brie_larson" : "molly_tracey", "dave_franco":"eric_molson"}
-name_mappings_captain_america = {"chris_evans":"steve_rogers","hayley_atwell":"peggy_carter","sebastian_stan":"james_buchanan_barnes","tommy_lee_jones":"col_chester_phillips"}
+name_mappings_21_jump_street = {"channing_tatum":"jenko", "jonah_hill":"schmidt", "brie_larson" : "molly_tracey", "dave_franco":"eric_molson"}
+name_mappings = {"chris_evans":"steve_rogers","hayley_atwell":"peggy_carter","sebastian_stan":"james_buchanan_barnes","tommy_lee_jones":"col_chester_phillips"}
 # CREATE KNOWLEDGE BASE OF ACTORS & REFERENCE IMAGE PATHS & CHARACTERS RELEVANT TO QUERY
 for name in name_mappings:
     actor_kb[name] = dict({"character":"","image_path":""})
@@ -46,7 +46,7 @@ for name in name_mappings:
             print("\tWarning: couldn't find reference image for " + name)
             del actor_kb[name]
 
-print("\n\nTried to creat KB for actors, please verify:")
+print("\n\nTried to create KB for actors, please verify:")
 for key, data in actor_kb.items():
     print("\t{}:{}".format(key,data))
 
@@ -55,10 +55,10 @@ input("continue?")
 # TODO: CHECK THAT WE CAN ACCESS VIDEOS
 print("Checking that we can access video paths\n\tTesting for scene 1")
 count = 0
-for vid_path in os.listdir(get_div_dir(1)):
-    if os.path.exists(get_div_dir(1) + vid_path):
+for vid_path in os.listdir(get_div_dir(0)):
+    if os.path.exists(get_div_dir(0) + vid_path):
         count += 1
-        print("\tgot path " + get_div_dir(1) + vid_path)
+        print("\tgot path " + get_div_dir(0) + vid_path)
     else:
         print("\tcouldn't find path " + get_div_dir(1) + vid_path)
 print("\tFound {} paths".format(count))
@@ -83,6 +83,7 @@ for i, scene in enumerate(SCENES):
     div_dir = get_div_dir(i)
     for j, video_path in enumerate(os.listdir(div_dir)):
         # From this video division, get the percentage for each actor
+        print("iterating through videos. Video {}, vid path {}, div_dir {}".format(j, video_path, div_dir))
         info = video_face_recognition.getPercentages(div_dir + video_path, actor_kb, 3)
         percentages = info[0]
         for name, percentage in percentages.items():
