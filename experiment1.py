@@ -11,16 +11,16 @@ import time
 import pickle
 
 FILM_NAME = "captain_america"
-OUTPUT_DIR = "../results/round_1/captain_america/"
+OUTPUT_DIR = "../results/round_2/" + FILM_NAME + "/"
 if not os.path.exists(OUTPUT_DIR):
     os.makedirs(OUTPUT_DIR)
 
 # GET QUERY
 
 EXPERIMENT_DIR = "./"
-FILM_DATA_DIR = "../data/round1_symlink/captain_america/"
+FILM_DATA_DIR = "../data/round1_symlink/" + FILM_NAME + "/"
 VIDEO_DIR = FILM_DATA_DIR + "video_clips/"
-FACES_DIR = FILM_DATA_DIR + "faces/manual_best/"
+FACES_DIR = FILM_DATA_DIR + "faces/manual_poor/"
 SCENES = ["scene_0","scene_1","scene_2","scene_3","scene_4"]
 
 def get_div_dir(scene_number):
@@ -28,7 +28,7 @@ def get_div_dir(scene_number):
 
 # actor_kb structure: {"actor_name" : {"character_name":"", "image_path":""}}
 actor_kb = {}
-name_mappings_21_jump_street = {"channing_tatum":"jenko", "jonah_hill":"schmidt", "brie_larson" : "molly_tracey", "dave_franco":"eric_molson"}
+#name_mappings = {"channing_tatum":"jenko", "jonah_hill":"schmidt", "brie_larson" : "molly_tracey", "dave_franco":"eric_molson"}
 name_mappings = {"chris_evans":"steve_rogers","hayley_atwell":"peggy_carter","sebastian_stan":"james_buchanan_barnes","tommy_lee_jones":"col_chester_phillips"}
 # CREATE KNOWLEDGE BASE OF ACTORS & REFERENCE IMAGE PATHS & CHARACTERS RELEVANT TO QUERY
 for name in name_mappings:
@@ -53,16 +53,18 @@ for key, data in actor_kb.items():
 input("continue?")
 
 # TODO: CHECK THAT WE CAN ACCESS VIDEOS
-print("Checking that we can access video paths\n\tTesting for scene 1")
-count = 0
-for vid_path in os.listdir(get_div_dir(0)):
-    if os.path.exists(get_div_dir(0) + vid_path):
-        count += 1
-        print("\tgot path " + get_div_dir(0) + vid_path)
-    else:
-        print("\tcouldn't find path " + get_div_dir(1) + vid_path)
-print("\tFound {} paths".format(count))
-input("continue?")
+print("Checking that we can access video paths")
+for i, scene in enumerate(SCENES):
+    print("\n\tTesting for scene " + str(i))
+    count = 0
+    for vid_path in os.listdir(get_div_dir(i)):
+        if os.path.exists(get_div_dir(i) + vid_path):
+            count += 1
+            print("\tgot path " + get_div_dir(i) + vid_path)
+        else:
+            print("\tcouldn't find path " + get_div_dir(i) + vid_path)
+    print("\tFound {} paths".format(count))
+    input("continue?")
 
 # USING QUERY, THE VIDEO IS SPLIT INTO DIVISIONS, EACH DIVISION GETS A PERCENTAGE
 # FOR DIVISION IN SCENE, RECOGNIZE FACES IN SELECTED DIVISION
@@ -82,8 +84,11 @@ for i, scene in enumerate(SCENES):
     start_time = time.time()
     div_dir = get_div_dir(i)
     for j, video_path in enumerate(os.listdir(div_dir)):
+        print("vid path : " + video_path)
+        if video_path[0] == '.':
+            continue
         # From this video division, get the percentage for each actor
-        print("iterating through videos. Video {}, vid path {}, div_dir {}".format(j, video_path, div_dir))
+        #print("iterating through videos. Video {}, vid path {}, div_dir {}".format(j, video_path, div_dir))
         info = video_face_recognition.getPercentages(div_dir + video_path, actor_kb, 3)
         percentages = info[0]
         for name, percentage in percentages.items():
@@ -107,7 +112,10 @@ for i, scene in enumerate(SCENES):
     # And also PICKLE them for later analysis. The pickle should contain metadata about the experiment: Date, time, length of experiment vs length of video, the scene being analysed (eg: 21_jump_street_scene1, 21_jump_street_scene2)
     #pickle(results, i, SCENES[i], getTime, )
     #write a table to a new pickle file
+    pickle_storage = {}
     pickle_filename = FILM_NAME + "_" + scene + "_info.pkl"
-    pickle_data = info + tuple(dict({"time": (stop_time - start_time), "film_name":FILM_NAME, "scene":scene}))
+    for actor, val in results.items():
+        pickle_storage[actor] = val
+    #pickle_data = info + tuple(dict({"time": (stop_time - start_time), "film_name":FILM_NAME, "scene":scene}))
     with open(OUTPUT_DIR + scene + "/" + pickle_filename, 'w+b') as pfile:
-        pickle.dump(pickle_data, pfile)
+        pickle.dump(pickle_storage, pfile)

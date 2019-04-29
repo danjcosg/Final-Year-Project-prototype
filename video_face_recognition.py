@@ -21,22 +21,47 @@ Side-Effects:
 
 REC_JITTER = 0
 COMPARISON_TOLERANCE = 0.6
-DEFAULT_VIDEO_PATH = "/Users/daniel/Documents/FYP/Prototype/video_clips/21_JUMP_STREET_DVS20.avi" 
-TEST_IMAGE_PATH = "/Users/daniel/Documents/FYP/Experiments/round1_symlink/21_jump_street/faces/channing_tatum.jpg"
-if not os.path.exists("/Users/daniel/Documents/FYP/Experiments/round1_symlink/21_jump_street/faces"):
-    TEST_IMAGE_PATH = "/Users/daniel/Documents/FYP/Prototype/input_faces/channing_tatum.jpg"
-STRIDE = 1
+DEFAULT_VIDEO_DIR = "/Users/daniel/Documents/FYP/data/round1_symlink/captain_america/video_clips/scene_1/" 
+DEFAULT_FACES_DIR = "/Users/daniel/Documents/FYP/data/round1_symlink/captain_america/faces/manual_best/"
+STRIDE = 3
 
-default_kb = {}
+default_name_mappings = {"chris_evans":"steve_rogers","hayley_atwell":"peggy_carter","sebastian_stan":"james_buchanan_barnes","tommy_lee_jones":"col_chester_phillips"}
 
-# TODO: decide on output format. What files? What directories? Should directories be made by this program? (yes, if none is specified))
-FILM_NAME = "21_jump_street"
-OUTPUT_DIR = "../results/round_1/21_jump_street/"
+FILM_NAME = "captain_america"
+OUTPUT_DIR = "./sample_video/"
 if not os.path.exists(OUTPUT_DIR):
     os.makedirs(OUTPUT_DIR)
 
+def write_sample_frames(locations, frame_copy, full_object_detections, frame_number):
+    # WRITE SOME IMAGES FOR VERIFICATION
+    # Draw the locations found by the detector
+    for location in locations:
+        cv2.rectangle(frame_copy, (location.bl_corner().x, location.bl_corner().y), (location.br_corner().x, location.br_corner().y - location.height()), (0,0,255), 1)
+
+    # TODO: DRAW THE LANDMARKS ON THE IMAGE AND WRITE AN IMAGE FOR EVERY nth FRAME, m TIMES PER SCENE
+    # loop over the (x, y)-coordinates for the facial landmarks
+    # and draw each of them
+    for i, full_object_detection in enumerate(full_object_detections):
+        for point in full_object_detection.parts():
+            cv2.circle(frame_copy, (point.x, point.y), 1, (0, 0, 255), -1)
+    
+    if locations:
+        # Draw the name of the detected character
+        for i, location in enumerate(locations):
+            width = locations[i].width()
+            height = locations[i].height()
+            bl_corner = locations[i].bl_corner()
+            cv2.rectangle(frame_copy, (bl_corner.x, bl_corner.y - height), (bl_corner.x + width, bl_corner.y - height - 23), (0,0,255), 1 )
+            cv2.putText(frame_copy, recognized_faces_names[i],(locations[i].bl_corner().x,locations[i].bl_corner().y - locations[i].height()), cv2.FONT_HERSHEY_SIMPLEX, 1, (200,255,155))
+    if frame_number < 10:
+        cv2.imwrite(OUTPUT_DIR + "frame_00" + str(frame_number) + ".jpg", frame_copy)
+    elif frame_number < 100:
+        cv2.imwrite(OUTPUT_DIR + "frame_0" + str(frame_number) + ".jpg", frame_copy)
+    else:
+        cv2.imwrite(OUTPUT_DIR + "frame_" + str(frame_number) + ".jpg", frame_copy)
+
 # TODO: Output SAMPLE of each scene as video
-def run(video_path, actor_kb, stride = 1):
+def run(video_path, actor_kb, stride = 3):
 
     # setup the face detector & encoder for use on each frame
     detector = dlib.get_frontal_face_detector()
@@ -109,7 +134,7 @@ def run(video_path, actor_kb, stride = 1):
 
         # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
         rgb_frame = frame[:, :, ::-1]
-        #frame_copy = frame.copy()
+        frame_copy = frame.copy()
         # BEGIN FACE DETECTION & ENCODING OVER THE FRAME. (find ALL faces in the frame. NB: Encoding is like analysing a face. Recognition is encoding + comparing to some kb of encodings) 
         locations = detector(rgb_frame)
         full_object_detections = []
@@ -142,37 +167,16 @@ def run(video_path, actor_kb, stride = 1):
                     counts[i] += 1
                     break
             recognized_faces_names.append(name)
+        print("\n***Recognized: {}".format(recognized_faces_names))
         #print("\nDone Comparing")
         #print("\tCurrent count: ")
         #for i, character_name in enumerate(known_characters):
         #    print("\t{} : {}".format(character_name , counts[i]))
         # FINISHED RECOGNIZING
 
-        '''
-        # WRITE SOME IMAGES FOR VERIFICATION
-        # Draw the locations found by the detector
-        for location in locations:
-            cv2.rectangle(frame_copy, (location.bl_corner().x, location.bl_corner().y), (location.br_corner().x, location.br_corner().y - location.height()), (0,0,255), 1)
-
-        # TODO: DRAW THE LANDMARKS ON THE IMAGE AND WRITE AN IMAGE FOR EVERY nth FRAME, m TIMES PER SCENE
-        # loop over the (x, y)-coordinates for the facial landmarks
-        # and draw each of them
-        for i, full_object_detection in enumerate(full_object_detections):
-            for point in full_object_detection.parts():
-                cv2.circle(frame_copy, (point.x, point.y), 1, (0, 0, 255), -1)
-        cv2.imwrite("",frame)
-        cv2.imwrite("", frame_copy)
-        if locations:
-            # Draw the name of the detected character
-            for i, name in enumerate(known_characters):
-                width = locations[i].width()
-                height = locations[i].height()
-                bl_corner = locations[i].bl_corner()
-                cv2.rectangle(frame_copy, (bl_corner.x, bl_corner.y - height), (bl_corner.x + width, bl_corner.y - height - 23), (0,0,255), 1 )
-                cv2.putText(frame_copy, name,(locations[i].bl_corner().x,locations[i].bl_corner().y - locations[i].height()), cv2.FONT_HERSHEY_SIMPLEX, 1, (200,255,155))
-
-        cv2.imwrite("", frame_copy)
-        '''
+        if __name__ == "__main__":
+            write_sample_frames(locations, frame_copy, full_object_detections, frame_number)
+            
         
         #print("{}, {}".format(frame_number/FPS, recognized_faces_names))
     #print("\n\tRecognizer: Finished processing {}".format(video_path))
@@ -188,7 +192,7 @@ def run(video_path, actor_kb, stride = 1):
         actor_kb[characters_to_actors[name]]["count"] = counts[i]
         del actor_kb[characters_to_actors[name]]["encoding"]
     print("\tRecognizer: getPercentages:run:\n\t\ttotal_frames == {}\n\t\tStride == {}\n\t\tReturning tuple: (actor_kb, frames_analysed) == ({},{})".format(frame_number,STRIDE, actor_kb, frames_analysed))
-    #input("Continue?")
+    input("Continue?")
     return (actor_kb, frames_analysed, frame_number)
 
 #
@@ -207,6 +211,29 @@ def getPercentages(video_path, actor_kb, stride = 1):
     return (ret, tup[1], tup[2])
 
 if __name__ == '__main__':
+    default_kb = {}
 
-    #run(DEFAULT_VIDEO_PATH, default_kb)
-    print("{} : {}".format(name, percentage) for name, percentage in getPercentages(DEFAULT_VIDEO_PATH, default_kb).items()[0])
+    # CREATE KNOWLEDGE BASE OF ACTORS & REFERENCE IMAGE PATHS & CHARACTERS RELEVANT TO QUERY
+    for name in default_name_mappings:
+        default_kb[name] = dict({"character":"","image_path":""})
+        default_kb[name]["character"] = default_name_mappings[name]
+        if os.path.exists(DEFAULT_FACES_DIR + name + ".jpg"):
+            default_kb[name]["image_path"] = DEFAULT_FACES_DIR + name + ".jpg"
+        else:
+            for filename in os.listdir(DEFAULT_FACES_DIR):
+                parts = filename.split('.')
+                if parts[0] == name:
+                    default_kb[name]["image_path"] = DEFAULT_FACES_DIR + name + parts[1]
+                    break
+            else:
+                print("\tWarning: couldn't find reference image for " + name)
+                del default_kb[name]
+
+    print("\n\nTried to create KB for actors, please verify:")
+    for key, data in default_kb.items():
+        print("\t{}:{}".format(key,data))
+
+    input("continue?")
+    for video_path in os.listdir(DEFAULT_VIDEO_DIR):
+        run(DEFAULT_VIDEO_DIR + video_path, default_kb, STRIDE)
+    #print("{} : {}".format(name, percentage) for name, percentage in getPercentages(DEFAULT_VIDEO_PATH, default_kb).items()[0])
