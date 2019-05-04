@@ -1,0 +1,143 @@
+**
+Attempting to open file at directory: ./round_1/captain_america/scene_0/captain_america_scene_0_results.csv
+Done
+
+attempting to read first 4 lines of files:
+
+**Trying to convert lines in lines list to a <NAME:PERCENTAGE_LIST> dict 
+	Lines1 => ['chris_evans,[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]\n', 'hayley_atwell,[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]\n', 'sebastian_stan,[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]\n', 'tommy_lee_jones,[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]\n']
+
+**OK, Appending dictionary of results to round1 & round2 data lists
+
+**Successfully read all rounds for scene 0!
+**
+Attempting to open file at directory: ./round_1/captain_america/scene_1/captain_america_scene_1_results.csv
+Done
+
+attempting to read first 4 lines of files:
+
+**Trying to convert lines in lines list to a <NAME:PERCENTAGE_LIST> dict 
+	Lines1 => ['chris_evans,[6.25, 23.75, 6.25, 30.0, 11.25, 20.192307692307693]\n', 'hayley_atwell,[42.5, 50.0, 58.75, 57.49999999999999, 31.25, 39.42307692307692]\n', 'sebastian_stan,[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]\n', 'tommy_lee_jones,[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]\n']
+
+**OK, Appending dictionary of results to round1 & round2 data lists
+
+**Successfully read all rounds for scene 1!
+**
+Attempting to open file at directory: ./round_1/captain_america/scene_2/captain_america_scene_2_results.csv
+Done
+
+attempting to read first 4 lines of files:
+
+**Trying to convert lines in lines list to a <NAME:PERCENTAGE_LIST> dict 
+	Lines1 => ['chris_evans,[21.25, 17.5, 0.0, 1.25, 10.0, 52.5, 73.75, 17.5, 18.75, 55.208333333333336]\n', 'hayley_atwell,[0.0, 0.0, 26.25, 46.25, 30.0, 42.5, 17.5, 0.0, 76.25, 34.375]\n', 'sebastian_stan,[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]\n', 'tommy_lee_jones,[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]\n']
+
+**OK, Appending dictionary of results to round1 & round2 data lists
+
+**Successfully read all rounds for scene 2!
+**
+Attempting to open file at directory: ./round_1/captain_america/scene_3/captain_america_scene_3_results.csv
+Done
+
+attempting to read first 4 lines of files:
+
+**Trying to convert lines in lines list to a <NAME:PERCENTAGE_LIST> dict 
+	Lines1 => ['chris_evans,[0.0, 10.0, 1.25]\n', 'hayley_atwell,[25.0, 1.25, 0.0]\n', 'sebastian_stan,[0.0, 0.0, 0.0]\n', 'tommy_lee_jones,[0.0, 0.0, 0.0]\n']
+
+**OK, Appending dictionary of results to round1 & round2 data lists
+
+**Successfully read all rounds for scene 3!
+**
+Attempting to open file at directory: ./round_1/captain_america/scene_4/captain_america_scene_4_results.csv
+Done
+
+attempting to read first 4 lines of files:
+
+**Trying to convert lines in lines list to a <NAME:PERCENTAGE_LIST> dict 
+	Lines1 => ['chris_evans,[0.0, 0.0, 0.0, 0.0, 5.357142857142857]\n', 'hayley_atwell,[0.0, 0.0, 0.0, 0.0, 0.0]\n', 'sebastian_stan,[0.0, 1.25, 1.25, 7.5, 10.714285714285714]\n', 'tommy_lee_jones,[0.0, 0.0, 0.0, 0.0, 0.0]\n']
+
+**OK, Appending dictionary of results to round1 & round2 data lists
+
+**Successfully read all rounds for scene 4!
+
+Data for scene 0
+	round1_data[0] : 
+		chris_evans:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+		hayley_atwell:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+		sebastian_stan:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+		tommy_lee_jones:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	round2_data[0] :
+		chris_evans:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+		hayley_atwell:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+		sebastian_stan:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+		tommy_lee_jones:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Data for scene 1
+	round1_data[1] : 
+		chris_evans:[6.25, 23.75, 6.25, 30.0, 11.25, 20.19]
+		hayley_atwell:[42.5, 50.0, 58.75, 57.5, 31.25, 39.42]
+		sebastian_stan:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+		tommy_lee_jones:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	round2_data[1] :
+		chris_evans:[5.0, 10.0, 7.5, 31.25, 11.25, 20.192307692307693]
+		hayley_atwell:[57.49999999999999, 51.24999999999999, 66.25, 57.49999999999999, 31.25, 39.42307692307692]
+		sebastian_stan:[0.0, 0.0, 1.25, 0.0, 0.0, 0.0]
+		tommy_lee_jones:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Data for scene 2
+	round1_data[2] : 
+		chris_evans:[21.25, 17.5, 0.0, 1.25, 10.0, 52.5, 73.75, 17.5, 18.75, 55.208333333333336]
+		hayley_atwell:[0.0, 0.0, 26.25, 46.25, 30.0, 42.5, 17.5, 0.0, 76.25, 34.375]
+		sebastian_stan:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+		tommy_lee_jones:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	round2_data[2] :
+		chris_evans:[21.25, 17.5, 0.0, 1.25, 10.0, 43.75, 72.5, 16.25, 18.75, 54.166666666666664]
+		hayley_atwell:[0.0, 0.0, 28.749999999999996, 47.5, 32.5, 42.5, 17.5, 2.5, 77.5, 34.375]
+		sebastian_stan:[0.0, 0.0, 0.0, 0.0, 0.0, 7.5, 2.5, 0.0, 0.0, 0.0]
+		tommy_lee_jones:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Data for scene 3
+	round1_data[3] : 
+		chris_evans:[0.0, 10.0, 1.25]
+		hayley_atwell:[25.0, 1.25, 0.0]
+		sebastian_stan:[0.0, 0.0, 0.0]
+		tommy_lee_jones:[0.0, 0.0, 0.0]
+	round2_data[3] :
+		chris_evans:[0.0, 12.5, 2.5]
+		hayley_atwell:[20.0, 3.75, 0.0]
+		sebastian_stan:[0.0, 0.0, 0.0]
+		tommy_lee_jones:[0.0, 0.0, 0.0]
+Data for scene 4
+	round1_data[4] : 
+		chris_evans:[0.0, 0.0, 0.0, 0.0, 5.357142857142857]
+		hayley_atwell:[0.0, 0.0, 0.0, 0.0, 0.0]
+		sebastian_stan:[0.0, 1.25, 1.25, 7.5, 10.714285714285714]
+		tommy_lee_jones:[0.0, 0.0, 0.0, 0.0, 0.0]
+	round2_data[4] :
+		chris_evans:[0.0, 0.0, 0.0, 2.5, 6.25]
+		hayley_atwell:[0.0, 0.0, 0.0, 0.0, 0.0]
+		sebastian_stan:[0.0, 0.0, 1.25, 7.5, 10.714285714285714]
+		tommy_lee_jones:[0.0, 0.0, 0.0, 0.0, 0.0]
+
+--Differences calculated for each scene
+Differences for scene 0 in captain_america:
+	chris_evans: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	hayley_atwell: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	sebastian_stan: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	tommy_lee_jones: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Differences for scene 1 in captain_america:
+	chris_evans: [1.25, 13.75, -1.25, -1.25, 0.0, 0.0]
+	hayley_atwell: [-14.999999999999993, -1.249999999999993, -7.5, 0.0, 0.0, 0.0]
+	sebastian_stan: [0.0, 0.0, -1.25, 0.0, 0.0, 0.0]
+	tommy_lee_jones: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Differences for scene 2 in captain_america:
+	chris_evans: [0.0, 0.0, 0.0, 0.0, 0.0, 8.75, 1.25, 1.25, 0.0, 1.0416666666666714]
+	hayley_atwell: [0.0, 0.0, -2.4999999999999964, -1.25, -2.5, 0.0, 0.0, -2.5, -1.25, 0.0]
+	sebastian_stan: [0.0, 0.0, 0.0, 0.0, 0.0, -7.5, -2.5, 0.0, 0.0, 0.0]
+	tommy_lee_jones: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Differences for scene 3 in captain_america:
+	chris_evans: [0.0, -2.5, -1.25]
+	hayley_atwell: [5.0, -2.5, 0.0]
+	sebastian_stan: [0.0, 0.0, 0.0]
+	tommy_lee_jones: [0.0, 0.0, 0.0]
+Differences for scene 4 in captain_america:
+	chris_evans: [0.0, 0.0, 0.0, -2.5, -0.8928571428571432]
+	hayley_atwell: [0.0, 0.0, 0.0, 0.0, 0.0]
+	sebastian_stan: [0.0, 1.25, 0.0, 0.0, 0.0]
+	tommy_lee_jones: [0.0, 0.0, 0.0, 0.0, 0.0]

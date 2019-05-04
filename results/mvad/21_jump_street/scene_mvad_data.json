@@ -1,0 +1,44 @@
+[
+{
+    "scene_number" : 0,
+    "scene_start" : [1,31,16],
+    "scene_end" : [1,31,28],
+    "n_divisions" : 1,
+    "mvad_clip_numbers" : [583,584],
+    "mvad_srt"  : "21_JUMP_STREET_DVS583\n01:31:16,00 --> 01:31:23,50\nThe bikers riddle the DEA agents with bullet holes and they collapse side by side. \n\n21_JUMP_STREET_DVS584\n01:31:20,00 --> 01:31:26,50\nIn the bathroom stall, the red-haired nerd grabs his headphones.\n",
+    "mvad_description" : "The bikers riddle the DEA agents with bullet holes and they collapse side by side. In the bathroom stall, the red-haired nerd grabs his headphones."
+},
+{
+    "scene_number" : 1,
+    "scene_start" : [1,1,15],
+    "scene_end" : [1,4,2],
+    "n_divisions" : 16,
+    "mvad_clip_numbers" : [372,373,374,375,376,377,378],
+    "mvad_srt" : "21_JUMP_STREET_DVS372\n01:01:23,00 --> 01:01:27,50\nSOMEONE<Molly> sits close to SOMEONE<Schmidt>.\n\n21_JUMP_STREET_DVS373\n01:01:55,00 --> 01:02:01,50\nSOMEONE<Zach> whips throwing stars at a Zod poster.\n\n21_JUMP_STREET_DVS374\n01:02:44,00 --> 01:02:52,50\nShe gazes at him with doe-like eyes. SOMEONE<Schmidt> remembers asking out Melody in high school. \n\n21_JUMP_STREET_DVS375\n01:03:44,00 --> 01:03:48,50\nSOMEONE<Molly> smiles warmly. \n\n21_JUMP_STREET_DVS376\n01:03:46,00 --> 01:03:52,50\nAs she gazes into his eyes, SOMEONE's<Schmidt's> grin fades. \n\n21_JUMP_STREET_DVS377\n01:03:49,00 --> 01:03:56,50\nHer expression tender, SOMEONE<Molly> leans her lips toward his. \n\n21_JUMP_STREET_DVS378\n01:03:54,00 --> 01:03:58,50\nHe shakes her hand. ",
+    "mvad_description" : "SOMEONE<Molly> sits close to SOMEONE<Schmidt>. SOMEONE<Zach> whips throwing stars at a Zod poster. She<Molly> gazes at him<Schmidt> with doe-like eyes. SOMEONE<Schmidt> remembers asking out Melody in high school. SOMEONE<Molly> smiles warmly. As she<Molly> gazes into his<Schmidt> eyes, SOMEONE's<Schmidt's> grin fades. Her<Molly> expression tender, SOMEONE<Molly> leans her lips toward his<Schmidt>. He<Schmidt> shakes her<Molly> hand."
+},
+{
+    "scene_number" : 2,
+    "scene_start" : [0,55,48],
+    "scene_end" : [0,56,20],
+    "n_divisions" : 3,
+    "mvad_clip_numbers" : [334,335],
+    "mvad_description" : "Now at the police firing range, the two cops<Jenko><Schmidt> shoot at a cutout depicting a gunman using a woman as a human shield. SOMEONE<Jenko> cocks his head, then turns away."
+},
+{
+    "scene_number" : 3,
+    "scene_start" : [1,10,3],
+    "scene_end" : [1,11,9],
+    "n_divisions" : 6,
+    "mvad_clip_numbers" : [414,415,416,417,418,419,420],
+    "mvad_description" : "SOMEONE<Jenko> steps on the brake and the car stops short again. SOMEONE<Schmidt> stomps the accelerator, then hammer fists his<Jenko> groin. As SOMEONE<Jenko> recoils, the car rams the bearded biker's rear tire. Knocking him onto the hood. He rips the student driver sign off the roof and bashes it over the hood. As he jumps up and down on the hood his cohorts get off their bikes and watch. SOMEONE<Schmidt> observes an instruction card, before you drive fasten seatbelt, check mirrors, hands on ten and two. The car peels out dropping the biker and knocking over the motorcycles. They<Schmidt><Jenko> blow through a red light."
+},
+{
+    "scene_number" : 4,
+    "scene_start" : [0,51,9],
+    "scene_end" : [0,52,12],
+    "n_divisions" : 6,
+    "mvad_clip_numbers" : [295,296,297,298,299,300,301,302,303,304,305],
+    "mvad_description" : "SOMEONE<Scott> punches him in the gut. SOMEONE<Jenko> rushes downstairs. SOMEONE<Schmidt> hits SOMEONE<Scott> as SOMEONE<Jenko> fights his friends. As SOMEONE<Jenko> and the two teen thugs trade expert fighting moves, SOMEONE<Scott> twirls his hand stylistically. SOMEONE's<Scott's> punch lands on SOMEONE's<Molly's> boob. She<Molly> slaps him. SOMEONE<Scott> tackles SOMEONE<Schmidt> onto a couch. The cop<Schmidt> defends himself with a throw pillow. His<Schmidt> flailing foot kicks SOMEONE's<Scott's> groin. As SOMEONE's<Jenko's> fight moves to the kitchen, SOMEONE<Scott> chases SOMEONE<Schmidt> around the living room. As SOMEONE<Jenko> punches out a thug, SOMEONE<Scott> backs SOMEONE<Schmidt> to the mantel where the Sedona vase rests. SOMEONE<Schmidt> smashes it over SOMEONE's<Scott's> head. The thug collapses on his living room rug."
+}
+]

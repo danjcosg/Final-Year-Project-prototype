@@ -1,0 +1,82 @@
+Data for scene 0
+        round1_data[0] :
+                channing_tatum:[0.0]
+                jonah_hill:[0.0]
+                brie_larson:[0.0]
+                dave_franco:[0.0]
+        round2_data[0] :
+                channing_tatum:[0.0]
+                jonah_hill:[0.0]
+                brie_larson:[0.0]
+                dave_franco:[0.0]
+Data for scene 1
+        round1_data[1] :
+                channing_tatum:[0.0, 0.0, 0.0, 5.0, 6.25, 48.75, 43.75, 0.0, 0.0, 6.25, 11.25, 22.5, 3.75, 0.0, 61.25, 11.03]
+                jonah_hill:[55.0, 85.0, 72.5, 16.25, 37.5, 13.75, 0.0, 0.0, 55.0, 83.75, 57.5, 32.5, 57.5, 58.75, 1.25, 50.0]
+                brie_larson:[16.25, 6.25, 15.0, 23.75, 27.50, 0.0, 0.0, 42.5, 43.75, 8.75, 11.25, 20.0, 36.25, 41.25, 32.5, 34.56]
+                dave_franco:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        round2_data[1] :
+                channing_tatum:[0.0, 0.0, 0.0, 5.0, 3.75, 47.5, 43.75, 0.0, 0.0, 6.25, 13.75, 23.75, 3.75, 0.0, 61.25, 11.76]
+                jonah_hill:[55.00, 85.0, 66.25, 16.25, 37.5, 13.75, 0.0, 0.0, 53.75, 83.75, 57.5, 31.25, 55.0, 58.75, 1.25, 47.79]
+                brie_larson:[6.25, 0.0, 7.5, 17.5, 7.5, 0.0, 0.0, 17.5, 41.25, 8.75, 16.25, 20.0, 30.0, 40.0, 30.0, 27.94]
+                dave_franco:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Data for scene 2
+        round1_data[2] :
+                channing_tatum:[3.75, 32.5, 30.21]
+                jonah_hill:[7.5, 37.5, 26.042]
+                brie_larson:[0.0, 0.0, 0.0]
+                dave_franco:[0.0, 0.0, 0.0]
+        round2_data[2] :
+                channing_tatum:[7.5, 62.5, 40.625]
+                jonah_hill:[17.5, 37.5, 28.125]
+                brie_larson:[1.25, 0.0, 0.0]
+                dave_franco:[0.0, 0.0, 0.0]
+Data for scene 3
+        round1_data[3] :
+                channing_tatum:[38.75, 33.75, 3.75, 0.0, 0.0, 3.91]
+                jonah_hill:[12.5, 16.25, 5.0, 12.5, 0.0, 3.125]
+                brie_larson:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+                dave_franco:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        round2_data[3] :
+                channing_tatum:[28.75, 28.75, 3.75, 0.0, 0.0, 0.78125]
+                jonah_hill:[12.5, 13.75, 2.5, 1.25, 0.0, 0.78125]
+                brie_larson:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+                dave_franco:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Data for scene 4
+        round1_data[4] :
+                channing_tatum:[5.0, 3.75, 0.0, 0.0, 0.0, 2.88]
+                jonah_hill:[6.25, 5.0, 1.25, 0.0, 7.5, 20.19]
+                brie_larson:[0.0, 0.0, 1.25, 0.0, 0.0, 0.0]
+                dave_franco:[0.0, 1.25, 0.0, 0.0, 0.0, 4.81]
+        round2_data[4] :
+                channing_tatum:[5.0, 5.0, 1.25, 1.25, 0.0, 11.54]
+                jonah_hill:[3.75, 1.25, 0.0, 0.0, 2.5, 9.62]
+                brie_larson:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+                dave_franco:[0.0, 8.75, 3.75, 1.25, 0.0, 4.81]
+
+--Differences calculated for each scene
+Differences for scene 0 in 21_jump_street:
+        channing_tatum: [0.0]
+        jonah_hill: [0.0]
+        brie_larson: [0.0]
+        dave_franco: [0.0]
+Differences for scene 1 in 21_jump_street:
+        channing_tatum: [0.0, 0.0, 0.0, 0.0, 2.5, 1.25, 0.0, 0.0, 0.0, 0.0, -2.50, -1.25, 0.0, 0.0, 0.0, -0.74]
+        jonah_hill: [0.0, 0.0, 6.25, 0.0, 0.0, 0.0, 0.0, 0.0, 1.25, 0.0, 0.0, 1.25, 2.5, 0.0, 0.0, 2.21]
+        brie_larson: [10.0, 6.25, 7.5, 6.25, 20.00, 0.0, 0.0, 25.0, 2.5, 0.0, -5.0, 0.0, 6.25, 1.25, 2.5, 6.62]
+        dave_franco: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Differences for scene 2 in 21_jump_street:
+        channing_tatum: [-3.75, -30.0, -10.42]
+        jonah_hill: [-10.0, 0.0, -2.08]
+        brie_larson: [-1.25, 0.0, 0.0]
+        dave_franco: [0.0, 0.0, 0.0]
+Differences for scene 3 in 21_jump_street:
+        channing_tatum: [10.00, 5.00, 0.0, 0.0, 0.0, 3.125]
+        jonah_hill: [0.0, 2.5, 2.5, 11.25, 0.0, 2.34]
+        brie_larson: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        dave_franco: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Differences for scene 4 in 21_jump_street:
+        channing_tatum: [0.0, -1.25, -1.25, -1.25, 0.0, -8.65]
+        jonah_hill: [2.5, 3.75, 1.25, 0.0, 5.0, 10.58]
+        brie_larson: [0.0, 0.0, 1.25, 0.0, 0.0, 0.0]
+        dave_franco: [0.0, -7.5, -3.75, -1.25, 0.0, 0.0]

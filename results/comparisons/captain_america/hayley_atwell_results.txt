@@ -1,0 +1,27 @@
+Data for scene 0
+	round1_data[0] : 
+		hayley_atwell:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	round2_data[0] :
+		hayley_atwell:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Data for scene 1
+	round1_data[1] : 
+		hayley_atwell:[42.5, 50.0, 58.75, 57.5, 31.25, 39.42]
+	round2_data[1] :
+		hayley_atwell:[57.5, 51.25, 66.25, 57.5, 31.25, 39.42]
+Data for scene 2
+	round1_data[2] : 
+		hayley_atwell:[0.0, 0.0, 26.25, 46.25, 30.0, 42.5, 17.5, 0.0, 76.25, 34.375]
+	round2_data[2] :
+		hayley_atwell:[0.0, 0.0, 28.75, 47.5, 32.5, 42.5, 17.5, 2.5, 77.5, 34.375]
+Data for scene 3
+	round1_data[3] : 
+		hayley_atwell:[25.0, 1.25, 0.0]
+	round2_data[3] :
+		hayley_atwell:[20.0, 3.75, 0.0]
+		sebastian_stan:[0.0, 0.0, 0.0]
+		tommy_lee_jones:[0.0, 0.0, 0.0]
+Data for scene 4
+	round1_data[4] : 
+		hayley_atwell:[0.0, 0.0, 0.0, 0.0, 0.0]
+	round2_data[4] :
+		hayley_atwell:[0.0, 0.0, 0.0, 0.0, 0.0]

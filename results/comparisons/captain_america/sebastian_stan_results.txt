@@ -1,0 +1,27 @@
+Data for scene 0
+	round1_data[0] : 
+		sebastian_stan:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	round2_data[0] :
+		sebastian_stan:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Data for scene 1
+	round1_data[1] : 
+		sebastian_stan:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	round2_data[1] :
+		sebastian_stan:[0.0, 0.0, 1.25, 0.0, 0.0, 0.0]
+Data for scene 2
+	round1_data[2] : 
+		sebastian_stan:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	round2_data[2] :
+		sebastian_stan:[0.0, 0.0, 0.0, 0.0, 0.0, 7.5, 2.5, 0.0, 0.0, 0.0]
+Data for scene 3
+	round1_data[3] : 
+		sebastian_stan:[0.0, 0.0, 0.0]
+	round2_data[3] :
+		sebastian_stan:[0.0, 0.0, 0.0]
+Data for scene 4
+	round1_data[4] : 
+		sebastian_stan:[0.0, 1.25, 1.25, 7.5, 10.71]
+	round2_data[4] :
+		sebastian_stan:[0.0, 0.0, 1.25, 7.5, 10.71]
+
+TODO: INCLUDE GOLD STANDARD DATA
