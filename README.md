@@ -1,4 +1,4 @@
-# Investigating how varying Facial Attributes affect Facial Recognition
+# Investigation: Facial Attributes and Facial Recognition
 If we wanted to build an automatic summary system for videos, we would need to be able to detect when the characters appear in a film. This was the motivation for my dissertation. This repository contains the code I used to investigate how changing attributes of a face (eg: pose, lighting, facial hair) affect recognition, using modern recognition techniques. 
 
 # Overview
