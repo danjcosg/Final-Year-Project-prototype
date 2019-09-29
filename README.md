@@ -16,7 +16,7 @@ FIQ (Face Image Quality) - A metric representing how suitable an image of a face
 
 
 # Findings
-##5 Conclusion
+## Conclusion
 The examples from the previous section have revealed how for three attributes, (glasses,
 facial expression, illumination):
 
