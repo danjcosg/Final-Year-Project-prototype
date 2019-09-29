@@ -5,10 +5,15 @@ If we wanted to build an automatic summary system for videos, we would need to b
 [Overview document.](https://docs.google.com/presentation/d/1URz-3HzZ5AuwvxX-urZ1Ym7lGgBGjNM26xOgB3kEp8M/edit?usp=sharing)
 
 # Key Words & Libraries
-Face Detection - Detection of a face in an image
-Face Recognition - Mapping of a face to a name
-DLib - Machine Learning Library
-FIQ (Face Image Quality) - A metric representing how suitable an image of a face is as a reference for a Face Recognition System
+
+Face Detection - Detection of a face in an image.
+
+Face Recognition - Mapping of a face to a name.
+
+DLib - Machine Learning Library.
+
+FIQ (Face Image Quality) - A metric representing how suitable an image of a face is as a reference for a Face Recognition System.
+
 
 # Findings
 ##5 Conclusion
